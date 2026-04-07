@@ -4,8 +4,7 @@ url: >-
 apis:
   - aid: autopay:autopay
     name: Autopay
-    tags:
-      - API
+    tags: []
     humanURL: ' https://developer.autopay.io/'
     properties:
       - url: ' https://developer.autopay.io/'
@@ -15,9 +14,9 @@ apis:
       API, one must accept the Autopay API Usage Agreement.
 name: Autopay
 tags:
-  - Payments
   - Bills
   - Expenses
+  - Payments
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
