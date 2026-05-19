@@ -164,6 +164,8 @@ apis:
         url: https://developer.autopay.io
 
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/autopay
   - type: Portal
     url: https://developer.autopay.io
   - type: Website
