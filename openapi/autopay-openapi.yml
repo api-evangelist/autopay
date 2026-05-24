@@ -1,0 +1,579 @@
+openapi: 3.1.0
+info:
+  title: Autopay API
+  version: "1.0.0"
+  description: >-
+    Autopay is a Norwegian parking payment and management platform that provides
+    APIs for parking operators, landlords, fleet managers, and third-party
+    integrators. The platform exposes several distinct REST APIs covering
+    parking, payment, permits, fleet, booking, customer club, statistics,
+    accounting, vehicle status, and zone status. Authentication is OAuth 2.0
+    Client Credentials with access tokens minted from the authorization server.
+  contact:
+    name: Autopay Developer Portal
+    url: https://developer.autopay.io
+  license:
+    name: Autopay API Usage Agreement
+    url: https://developer.autopay.io
+servers:
+  - url: https://api.autopay.io
+    description: Autopay API production base URL
+tags:
+  - name: Accounting
+    description: Invoice export for accounting and ERP reconciliation
+  - name: Booking
+    description: Permit booking creation, modification, status, and availability
+  - name: Customer Club
+    description: Customer club membership management
+  - name: Fleet
+    description: Fleet vehicle management and parking/toll service retrieval
+  - name: Parking
+    description: Parking session product changes
+  - name: Payment
+    description: External payment registration and parking connection
+  - name: Permit
+    description: Tenant permit allocations and end-user permit lifecycle
+  - name: Statistics
+    description: Parking statistics export
+  - name: Status
+    description: Zone availability and detailed parking session status
+  - name: Vehicle
+    description: Vehicle permit and session lookups
+paths:
+  /accounting/v1/invoices:
+    get:
+      tags: [Accounting]
+      summary: List invoices
+      description: >-
+        Retrieve Autopay invoices. At least one date range must be provided —
+        either `from`/`to` (data update time) or
+        `invoice_date_from`/`invoice_date_to` (invoice date).
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: invoice_date_from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: invoice_date_to
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [PAID, UNPAID]
+        - name: cursor
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Invoices payload with pagination summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoices:
+                    type: array
+                    items:
+                      type: object
+                  summary:
+                    type: object
+      security:
+        - OAuth2: []
+  /booking/v3/permit_definitions:
+    get:
+      tags: [Booking]
+      summary: List permit definitions
+      responses:
+        "200":
+          description: Permit definitions available for booking
+      security:
+        - OAuth2: [permit_booking]
+  /booking/v3/availability:
+    get:
+      tags: [Booking]
+      summary: Check booking availability
+      parameters:
+        - name: valid_from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Availability response
+      security:
+        - OAuth2: [permit_booking]
+  /booking/v3/{id}/status:
+    get:
+      tags: [Booking]
+      summary: Get booking status
+      description: Rate limited to one query per booking per 900 seconds.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Booking status
+      security:
+        - OAuth2: [permit_booking]
+  /booking/v3/:
+    post:
+      tags: [Booking]
+      summary: Create a booking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Booking created
+      security:
+        - OAuth2: [permit_booking]
+  /booking/v3/{id}:
+    put:
+      tags: [Booking]
+      summary: Modify an existing booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Booking modified
+      security:
+        - OAuth2: [permit_booking]
+    delete:
+      tags: [Booking]
+      summary: Remove an unused booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Booking removed
+      security:
+        - OAuth2: [permit_booking]
+  /customer_club/v2/join:
+    post:
+      tags: [Customer Club]
+      summary: Add a customer to a customer club
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Membership registration created
+      security:
+        - OAuth2: [customer_club]
+  /customer_club/v2/status/{registrationId}:
+    get:
+      tags: [Customer Club]
+      summary: Get membership registration status
+      parameters:
+        - name: registrationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Membership status
+      security:
+        - OAuth2: [customer_club]
+  /customer_club/v2/leave/{registration_id}:
+    delete:
+      tags: [Customer Club]
+      summary: Cancel a customer club membership
+      parameters:
+        - name: registration_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Membership cancelled
+      security:
+        - OAuth2: [customer_club]
+  /fleet/v2/vehicles:
+    get:
+      tags: [Fleet]
+      summary: Retrieve all fleet vehicles
+      responses:
+        "200":
+          description: Fleet vehicles
+      security:
+        - OAuth2: []
+    post:
+      tags: [Fleet]
+      summary: Add a vehicle to the fleet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Vehicle added
+      security:
+        - OAuth2: []
+    delete:
+      tags: [Fleet]
+      summary: Remove a vehicle from the fleet
+      responses:
+        "200":
+          description: Vehicle removed
+      security:
+        - OAuth2: []
+  /fleet/v2/vehicles/detach:
+    post:
+      tags: [Fleet]
+      summary: Detach vehicle from all user profiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Vehicle detached
+      security:
+        - OAuth2: []
+  /fleet/v2/services:
+    get:
+      tags: [Fleet]
+      summary: Retrieve all parkings and toll road passings
+      responses:
+        "200":
+          description: Services list
+      security:
+        - OAuth2: []
+  /fleet/v2/services/by_updated_at:
+    get:
+      tags: [Fleet]
+      summary: Retrieve services filtered by update timestamp
+      responses:
+        "200":
+          description: Services list filtered by update timestamp
+      security:
+        - OAuth2: []
+  /fleet/v2/vehicles/services:
+    get:
+      tags: [Fleet]
+      summary: Retrieve services for a specific vehicle
+      responses:
+        "200":
+          description: Services for vehicle
+      security:
+        - OAuth2: []
+  /fleet/v2/vehicles/disable_payments:
+    post:
+      tags: [Fleet]
+      summary: Lock payments for unpaid services
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Payments locked
+      security:
+        - OAuth2: []
+  /parking/product/{parkingSessionId}:
+    put:
+      tags: [Parking]
+      summary: Change parking product on an active session
+      parameters:
+        - name: parkingSessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                facility_code:
+                  type: string
+                zone_code:
+                  type: string
+                product:
+                  type: string
+      responses:
+        "200":
+          description: Product changed
+        default:
+          description: Error response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+        - OAuth2: []
+  /payment/v1/connect_parking:
+    post:
+      tags: [Payment]
+      summary: Register an external payment and connect it to parking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Payment connected
+      security:
+        - OAuth2: []
+  /payment/v1/manual_stop:
+    post:
+      tags: [Payment]
+      summary: Request manual stopping of parking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Manual stop requested
+      security:
+        - OAuth2: []
+  /permit/v3/tenant_permit_allocations:
+    get:
+      tags: [Permit]
+      summary: Retrieve available permit allocations
+      responses:
+        "200":
+          description: Permit allocations
+      security:
+        - OAuth2: []
+  /permit/v3/tenant_issued_permits:
+    get:
+      tags: [Permit]
+      summary: List tenant-issued permits
+      parameters:
+        - name: permit_allocation_id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Tenant-issued permits
+      security:
+        - OAuth2: []
+  /permit/v3/end_user_permit:
+    post:
+      tags: [Permit]
+      summary: Create a new permit for an end user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: End-user permit created
+      security:
+        - OAuth2: []
+  /permit/v3/end_user_permit/{permit_id}:
+    put:
+      tags: [Permit]
+      summary: Modify validity dates on an existing permit
+      parameters:
+        - name: permit_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Permit modified
+      security:
+        - OAuth2: []
+    delete:
+      tags: [Permit]
+      summary: Revoke a permit
+      parameters:
+        - name: permit_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Permit revoked
+      security:
+        - OAuth2: []
+  /statistics/v1/parking:
+    get:
+      tags: [Statistics]
+      summary: Export parking statistics
+      description: >-
+        At least one date range must be provided — either `from`/`to` (parking
+        time) or `updated_at_from`/`updated_at_to` (record update time). Rate
+        limited to one query per 5 minutes per zone.
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: updated_at_from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: updated_at_to
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: zone_code
+          in: query
+          schema:
+            type: string
+        - name: cursor
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Parking statistics
+      security:
+        - OAuth2: []
+  /status/v1/zone/{zone_code}:
+    get:
+      tags: [Status]
+      summary: Get zone status (available spaces and active sessions)
+      parameters:
+        - name: zone_code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Zone status
+      security:
+        - OAuth2: [zone_status]
+  /status/v1/zone_details/{zone_code}:
+    get:
+      tags: [Status]
+      summary: Get detailed parking session information for a zone
+      parameters:
+        - name: zone_code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Zone detail status
+      security:
+        - OAuth2: [zone_status]
+  /vehicle/v1/permit:
+    get:
+      tags: [Vehicle]
+      summary: Look up vehicle permit and active session in a zone
+      parameters:
+        - name: vehicle
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Vehicle registration / license plate
+        - name: zone_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Parking zone ID (can be repeated for multiple zones)
+      responses:
+        "200":
+          description: Permit and session status
+      security:
+        - OAuth2: []
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: >-
+        OAuth 2.0 Client Credentials flow. Tokens are minted from the Auth0
+        token endpoint and used as Bearer tokens with `audience` set to
+        `https://api.autopay.io`. Some endpoints require specific scopes
+        such as `permit_booking`, `customer_club`, or `zone_status`.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-auth.autopay.io/oauth/token
+          scopes:
+            permit_booking: Required for Booking API operations
+            customer_club: Required for Customer Club API operations
+            zone_status: Required for Status API operations
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_id:
+          type: string
+        message:
+          type: string
+        description:
+          type: string
+security:
+  - OAuth2: []
