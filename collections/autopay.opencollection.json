@@ -1,0 +1,907 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Autopay API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/accounting/v1/invoices",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "invoice_date_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "invoice_date_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve Autopay invoices. At least one date range must be provided — either `from`/`to` (data update time) or `invoice_date_from`/`invoice_date_to` (invoice date)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Booking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List permit definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/booking/v3/permit_definitions",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "List permit definitions"
+        },
+        {
+          "info": {
+            "name": "Check booking availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/booking/v3/availability",
+            "params": [
+              {
+                "name": "valid_from",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Check booking availability"
+        },
+        {
+          "info": {
+            "name": "Get booking status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/booking/v3/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Rate limited to one query per booking per 900 seconds."
+        },
+        {
+          "info": {
+            "name": "Create a booking",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/booking/v3/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a booking"
+        },
+        {
+          "info": {
+            "name": "Modify an existing booking",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.autopay.io/booking/v3/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Modify an existing booking"
+        },
+        {
+          "info": {
+            "name": "Remove an unused booking",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.autopay.io/booking/v3/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Remove an unused booking"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Customer Club",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a customer to a customer club",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/customer_club/v2/join",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Add a customer to a customer club"
+        },
+        {
+          "info": {
+            "name": "Get membership registration status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/customer_club/v2/status/:registrationId",
+            "params": [
+              {
+                "name": "registrationId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get membership registration status"
+        },
+        {
+          "info": {
+            "name": "Cancel a customer club membership",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.autopay.io/customer_club/v2/leave/:registration_id",
+            "params": [
+              {
+                "name": "registration_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Cancel a customer club membership"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Fleet",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all fleet vehicles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/fleet/v2/vehicles",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve all fleet vehicles"
+        },
+        {
+          "info": {
+            "name": "Add a vehicle to the fleet",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/fleet/v2/vehicles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Add a vehicle to the fleet"
+        },
+        {
+          "info": {
+            "name": "Remove a vehicle from the fleet",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.autopay.io/fleet/v2/vehicles",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Remove a vehicle from the fleet"
+        },
+        {
+          "info": {
+            "name": "Detach vehicle from all user profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/fleet/v2/vehicles/detach",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Detach vehicle from all user profiles"
+        },
+        {
+          "info": {
+            "name": "Retrieve all parkings and toll road passings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/fleet/v2/services",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve all parkings and toll road passings"
+        },
+        {
+          "info": {
+            "name": "Retrieve services filtered by update timestamp",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/fleet/v2/services/by_updated_at",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve services filtered by update timestamp"
+        },
+        {
+          "info": {
+            "name": "Retrieve services for a specific vehicle",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/fleet/v2/vehicles/services",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve services for a specific vehicle"
+        },
+        {
+          "info": {
+            "name": "Lock payments for unpaid services",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/fleet/v2/vehicles/disable_payments",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Lock payments for unpaid services"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Parking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Change parking product on an active session",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.autopay.io/parking/product/:parkingSessionId",
+            "params": [
+              {
+                "name": "parkingSessionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Change parking product on an active session"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Payment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register an external payment and connect it to parking",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/payment/v1/connect_parking",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Register an external payment and connect it to parking"
+        },
+        {
+          "info": {
+            "name": "Request manual stopping of parking",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/payment/v1/manual_stop",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Request manual stopping of parking"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Permit",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve available permit allocations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/permit/v3/tenant_permit_allocations",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieve available permit allocations"
+        },
+        {
+          "info": {
+            "name": "List tenant-issued permits",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/permit/v3/tenant_issued_permits",
+            "params": [
+              {
+                "name": "permit_allocation_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "List tenant-issued permits"
+        },
+        {
+          "info": {
+            "name": "Create a new permit for an end user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/permit/v3/end_user_permit",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a new permit for an end user"
+        },
+        {
+          "info": {
+            "name": "Modify validity dates on an existing permit",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.autopay.io/permit/v3/end_user_permit/:permit_id",
+            "params": [
+              {
+                "name": "permit_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Modify validity dates on an existing permit"
+        },
+        {
+          "info": {
+            "name": "Revoke a permit",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.autopay.io/permit/v3/end_user_permit/:permit_id",
+            "params": [
+              {
+                "name": "permit_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Revoke a permit"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export parking statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/statistics/v1/parking",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_at_from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "updated_at_to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "zone_code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "At least one date range must be provided — either `from`/`to` (parking time) or `updated_at_from`/`updated_at_to` (record update time). Rate limited to one query per 5 minutes per zone."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get zone status (available spaces and active sessions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/status/v1/zone/:zone_code",
+            "params": [
+              {
+                "name": "zone_code",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get zone status (available spaces and active sessions)"
+        },
+        {
+          "info": {
+            "name": "Get detailed parking session information for a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/status/v1/zone_details/:zone_code",
+            "params": [
+              {
+                "name": "zone_code",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get detailed parking session information for a zone"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Vehicle",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Look up vehicle permit and active session in a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/vehicle/v1/permit",
+            "params": [
+              {
+                "name": "vehicle",
+                "value": "",
+                "type": "query",
+                "description": "Vehicle registration / license plate"
+              },
+              {
+                "name": "zone_id",
+                "value": "",
+                "type": "query",
+                "description": "Parking zone ID (can be repeated for multiple zones)"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Look up vehicle permit and active session in a zone"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
