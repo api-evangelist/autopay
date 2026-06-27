@@ -232,7 +232,7 @@ common:
         description: >-
           Connect corporate fleet management software with Autopay for
           parking cost tracking and vehicle permit assignment.
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://autopay.io/llms.txt
 maintainers:
   - FN: Kin Lane
