@@ -1,0 +1,31 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/autopay-openapi.yml
+schemes:
+- name: OAuth2
+  source: openapi/autopay-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api-auth.autopay.io/oauth/token
+  description: OAuth 2.0 Client Credentials flow. Tokens are minted from the Auth0 token endpoint
+    and used as Bearer tokens with `audience` set to `https://api.autopay.io`. Some endpoints
+    require specific scopes such as `permit_booking`, `customer_club`, or `zone_status`.
+scopes:
+- scope: customer_club
+  description: Required for Customer Club API operations
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/autopay-openapi.yml
+- scope: permit_booking
+  description: Required for Booking API operations
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/autopay-openapi.yml
+- scope: zone_status
+  description: Required for Status API operations
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/autopay-openapi.yml
