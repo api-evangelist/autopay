@@ -164,6 +164,12 @@ apis:
         url: https://developer.autopay.io
 
 common:
+  - type: VulnerabilityDisclosure
+    url: security/autopay-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/autopay-domain-security.yml
+  - type: Authentication
+    url: authentication/autopay-authentication.yml
   - type: OAuthScopes
     url: scopes/autopay-scopes.yml
   - type: LinkedIn
