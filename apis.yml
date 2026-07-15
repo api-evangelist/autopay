@@ -164,6 +164,8 @@ apis:
         url: https://developer.autopay.io
 
 common:
+  - type: AgenticAccess
+    url: agentic-access/autopay-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/autopay-vulnerability-disclosure.yml
   - type: DomainSecurity
