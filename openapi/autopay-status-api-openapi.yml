@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: Autopay Accounting Status API
+  version: 1.0.0
+  description: Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.
+  contact:
+    name: Autopay Developer Portal
+    url: https://developer.autopay.io
+  license:
+    name: Autopay API Usage Agreement
+    url: https://developer.autopay.io
+servers:
+- url: https://api.autopay.io
+  description: Autopay API production base URL
+security:
+- OAuth2: []
+tags:
+- name: Status
+  description: Zone availability and detailed parking session status
+paths:
+  /status/v1/zone/{zone_code}:
+    get:
+      tags:
+      - Status
+      summary: Get zone status (available spaces and active sessions)
+      parameters:
+      - name: zone_code
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Zone status
+      security:
+      - OAuth2:
+        - zone_status
+  /status/v1/zone_details/{zone_code}:
+    get:
+      tags:
+      - Status
+      summary: Get detailed parking session information for a zone
+      parameters:
+      - name: zone_code
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Zone detail status
+      security:
+      - OAuth2:
+        - zone_status
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 Client Credentials flow. Tokens are minted from the Auth0 token endpoint and used as Bearer tokens with `audience` set to `https://api.autopay.io`. Some endpoints require specific scopes such as `permit_booking`, `customer_club`, or `zone_status`.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-auth.autopay.io/oauth/token
+          scopes:
+            permit_booking: Required for Booking API operations
+            customer_club: Required for Customer Club API operations
+            zone_status: Required for Status API operations

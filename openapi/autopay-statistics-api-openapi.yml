@@ -1,0 +1,72 @@
+openapi: 3.1.0
+info:
+  title: Autopay Accounting Statistics API
+  version: 1.0.0
+  description: Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.
+  contact:
+    name: Autopay Developer Portal
+    url: https://developer.autopay.io
+  license:
+    name: Autopay API Usage Agreement
+    url: https://developer.autopay.io
+servers:
+- url: https://api.autopay.io
+  description: Autopay API production base URL
+security:
+- OAuth2: []
+tags:
+- name: Statistics
+  description: Parking statistics export
+paths:
+  /statistics/v1/parking:
+    get:
+      tags:
+      - Statistics
+      summary: Export parking statistics
+      description: At least one date range must be provided — either `from`/`to` (parking time) or `updated_at_from`/`updated_at_to` (record update time). Rate limited to one query per 5 minutes per zone.
+      parameters:
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: updated_at_from
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: updated_at_to
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: zone_code
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Parking statistics
+      security:
+      - OAuth2: []
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 Client Credentials flow. Tokens are minted from the Auth0 token endpoint and used as Bearer tokens with `audience` set to `https://api.autopay.io`. Some endpoints require specific scopes such as `permit_booking`, `customer_club`, or `zone_status`.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-auth.autopay.io/oauth/token
+          scopes:
+            permit_booking: Required for Booking API operations
+            customer_club: Required for Customer Club API operations
+            zone_status: Required for Status API operations

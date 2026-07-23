@@ -1,0 +1,128 @@
+openapi: 3.1.0
+info:
+  title: Autopay Accounting Fleet API
+  version: 1.0.0
+  description: Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.
+  contact:
+    name: Autopay Developer Portal
+    url: https://developer.autopay.io
+  license:
+    name: Autopay API Usage Agreement
+    url: https://developer.autopay.io
+servers:
+- url: https://api.autopay.io
+  description: Autopay API production base URL
+security:
+- OAuth2: []
+tags:
+- name: Fleet
+  description: Fleet vehicle management and parking/toll service retrieval
+paths:
+  /fleet/v2/vehicles:
+    get:
+      tags:
+      - Fleet
+      summary: Retrieve all fleet vehicles
+      responses:
+        '200':
+          description: Fleet vehicles
+      security:
+      - OAuth2: []
+    post:
+      tags:
+      - Fleet
+      summary: Add a vehicle to the fleet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Vehicle added
+      security:
+      - OAuth2: []
+    delete:
+      tags:
+      - Fleet
+      summary: Remove a vehicle from the fleet
+      responses:
+        '200':
+          description: Vehicle removed
+      security:
+      - OAuth2: []
+  /fleet/v2/vehicles/detach:
+    post:
+      tags:
+      - Fleet
+      summary: Detach vehicle from all user profiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Vehicle detached
+      security:
+      - OAuth2: []
+  /fleet/v2/services:
+    get:
+      tags:
+      - Fleet
+      summary: Retrieve all parkings and toll road passings
+      responses:
+        '200':
+          description: Services list
+      security:
+      - OAuth2: []
+  /fleet/v2/services/by_updated_at:
+    get:
+      tags:
+      - Fleet
+      summary: Retrieve services filtered by update timestamp
+      responses:
+        '200':
+          description: Services list filtered by update timestamp
+      security:
+      - OAuth2: []
+  /fleet/v2/vehicles/services:
+    get:
+      tags:
+      - Fleet
+      summary: Retrieve services for a specific vehicle
+      responses:
+        '200':
+          description: Services for vehicle
+      security:
+      - OAuth2: []
+  /fleet/v2/vehicles/disable_payments:
+    post:
+      tags:
+      - Fleet
+      summary: Lock payments for unpaid services
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Payments locked
+      security:
+      - OAuth2: []
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 Client Credentials flow. Tokens are minted from the Auth0 token endpoint and used as Bearer tokens with `audience` set to `https://api.autopay.io`. Some endpoints require specific scopes such as `permit_booking`, `customer_club`, or `zone_status`.
+      flows:
+        clientCredentials:
+          tokenUrl: https://api-auth.autopay.io/oauth/token
+          scopes:
+            permit_booking: Required for Booking API operations
+            customer_club: Required for Customer Club API operations
+            zone_status: Required for Status API operations
