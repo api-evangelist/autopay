@@ -14,7 +14,20 @@ tags:
   - Parking Operators
   - Norway
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/autopay.png
 access: 3rd-Party
 created: '2025-02-08'
 modified: '2026-04-19'
@@ -22,147 +35,221 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/autopay/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: autopay:accounting-api
-    name: Autopay Accounting API
-    description: >-
-      The Autopay Accounting API provides Autopay invoicing data to external
-      accounting and ERP systems, enabling automated reconciliation of parking
-      revenue and invoice export.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Accounting
-      - Invoicing
-      - Finance
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-      - type: Authentication
-        url: https://developer.autopay.io
-
-  - aid: autopay:booking-api
-    name: Autopay Booking API
-    description: >-
-      The Autopay Booking API enables assignment of anonymous parking permits
-      to vehicles, supporting short-term and pre-booked parking allocations
-      in managed parking facilities.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Booking
-      - Parking Permits
-      - Reservations
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
-  - aid: autopay:parking-api
-    name: Autopay Parking API
-    description: >-
-      The Autopay Parking API handles zone entry notifications and parking
-      session modifications, enabling integration with parking gate systems,
-      sensors, and barrier control equipment to track vehicle arrivals and
-      departures in parking zones.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Parking Sessions
-      - Zone Entry
-      - Gate Control
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
-  - aid: autopay:payment-api
-    name: Autopay Payment API
-    description: >-
-      The Autopay Payment API enables third-party systems to take payment
-      responsibility for parking sessions, supporting employer-paid parking,
-      fleet-billed parking, and visitor parking validation workflows.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Payments
-      - Parking Payment
-      - Third-Party Billing
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
-  - aid: autopay:permit-tenant-api
-    name: Autopay Permit Tenant API
-    description: >-
-      The Autopay Permit Tenant API enables tenants in managed properties to
-      manage their parking permits, including adding vehicles, modifying permit
-      allocations, and tracking permit usage within their assigned quota.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Permits
-      - Tenant Management
-      - Vehicle Permits
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
-  - aid: autopay:fleet-api
-    name: Autopay Fleet API
-    description: >-
-      The Autopay Fleet API provides fleet information for company vehicle
-      fleets, enabling fleet managers to track vehicle parking activity, costs,
-      and permit usage across all fleet vehicles.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Fleet Management
-      - Vehicle Tracking
-      - Corporate Parking
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
-  - aid: autopay:statistics-api
-    name: Autopay Statistics API
-    description: >-
-      The Autopay Statistics API exports parking statistics for operators and
-      landlords, providing data on occupancy rates, revenue, session volumes,
-      and permit utilization for parking facility management and reporting.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Analytics
-      - Statistics
-      - Reporting
-      - Occupancy
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
-  - aid: autopay:vehicle-api
-    name: Autopay Vehicle API
-    description: >-
-      The Autopay Vehicle API fetches data about a vehicle in a specific
-      parking zone, providing real-time information on vehicle presence,
-      active session status, and permit validity for enforcement and
-      access control purposes.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Vehicle Data
-      - Zone Status
-      - Enforcement
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
-  - aid: autopay:tap-park-api
-    name: Autopay Tap and Park API
-    description: >-
-      The Autopay Tap and Park API enables third-party applications to validate
-      parking sessions in Autopay-managed zones, supporting contactless parking
-      validation via NFC, mobile apps, or access control systems.
-    humanURL: https://developer.autopay.io
-    tags:
-      - Parking Validation
-      - NFC
-      - Mobile Payments
-      - Contactless
-    properties:
-      - type: Documentation
-        url: https://developer.autopay.io
-
+- aid: autopay:accounting-api
+  name: Autopay Accounting API
+  description: >-
+    The Autopay Accounting API provides Autopay invoicing data to external accounting and ERP systems,
+    enabling automated reconciliation of parking revenue and invoice export.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Accounting
+  - Invoicing
+  - Finance
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+  - type: Authentication
+    url: https://developer.autopay.io
+- aid: autopay:booking-api
+  name: Autopay Booking API
+  description: >-
+    The Autopay Booking API enables assignment of anonymous parking permits to vehicles, supporting short-term
+    and pre-booked parking allocations in managed parking facilities.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Booking
+  - Parking Permits
+  - Reservations
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:parking-api
+  name: Autopay Parking API
+  description: >-
+    The Autopay Parking API handles zone entry notifications and parking session modifications, enabling
+    integration with parking gate systems, sensors, and barrier control equipment to track vehicle arrivals
+    and departures in parking zones.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Parking Sessions
+  - Zone Entry
+  - Gate Control
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:payment-api
+  name: Autopay Payment API
+  description: >-
+    The Autopay Payment API enables third-party systems to take payment responsibility for parking sessions,
+    supporting employer-paid parking, fleet-billed parking, and visitor parking validation workflows.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Payments
+  - Parking Payment
+  - Third-Party Billing
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:permit-tenant-api
+  name: Autopay Permit Tenant API
+  description: >-
+    The Autopay Permit Tenant API enables tenants in managed properties to manage their parking permits,
+    including adding vehicles, modifying permit allocations, and tracking permit usage within their assigned
+    quota.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Permits
+  - Tenant Management
+  - Vehicle Permits
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:fleet-api
+  name: Autopay Fleet API
+  description: >-
+    The Autopay Fleet API provides fleet information for company vehicle fleets, enabling fleet managers
+    to track vehicle parking activity, costs, and permit usage across all fleet vehicles.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Fleet Management
+  - Vehicle Tracking
+  - Corporate Parking
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:statistics-api
+  name: Autopay Statistics API
+  description: >-
+    The Autopay Statistics API exports parking statistics for operators and landlords, providing data
+    on occupancy rates, revenue, session volumes, and permit utilization for parking facility management
+    and reporting.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Analytics
+  - Statistics
+  - Reporting
+  - Occupancy
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:vehicle-api
+  name: Autopay Vehicle API
+  description: >-
+    The Autopay Vehicle API fetches data about a vehicle in a specific parking zone, providing real-time
+    information on vehicle presence, active session status, and permit validity for enforcement and access
+    control purposes.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Vehicle Data
+  - Zone Status
+  - Enforcement
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:tap-park-api
+  name: Autopay Tap and Park API
+  description: >-
+    The Autopay Tap and Park API enables third-party applications to validate parking sessions in Autopay-managed
+    zones, supporting contactless parking validation via NFC, mobile apps, or access control systems.
+  humanURL: https://developer.autopay.io
+  tags:
+  - Parking Validation
+  - NFC
+  - Mobile Payments
+  - Contactless
+  properties:
+  - type: Documentation
+    url: https://developer.autopay.io
+- aid: autopay:autopay-accounting-api
+  name: Autopay Accounting API
+  description: Invoice export for accounting and ERP reconciliation
+  humanURL: https://developer.autopay.io
+  tags:
+  - Accounting
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-accounting-api-openapi.yml
+- aid: autopay:autopay-booking-api
+  name: Autopay Booking API
+  description: Permit booking creation, modification, status, and availability
+  humanURL: https://developer.autopay.io
+  tags:
+  - Booking
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-booking-api-openapi.yml
+- aid: autopay:autopay-customer-club-api
+  name: Autopay Customer Club API
+  description: Customer club membership management
+  humanURL: https://developer.autopay.io
+  tags:
+  - Customer Club
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-customer-club-api-openapi.yml
+- aid: autopay:autopay-fleet-api
+  name: Autopay Fleet API
+  description: Fleet vehicle management and parking/toll service retrieval
+  humanURL: https://developer.autopay.io
+  tags:
+  - Fleet
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-fleet-api-openapi.yml
+- aid: autopay:autopay-parking-api
+  name: Autopay Parking API
+  description: Parking session product changes
+  humanURL: https://developer.autopay.io
+  tags:
+  - Parking
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-parking-api-openapi.yml
+- aid: autopay:autopay-payment-api
+  name: Autopay Payment API
+  description: External payment registration and parking connection
+  humanURL: https://developer.autopay.io
+  tags:
+  - Payment
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-payment-api-openapi.yml
+- aid: autopay:autopay-permit-api
+  name: Autopay Permit API
+  description: Tenant permit allocations and end-user permit lifecycle
+  humanURL: https://developer.autopay.io
+  tags:
+  - Permit
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-permit-api-openapi.yml
+- aid: autopay:autopay-statistics-api
+  name: Autopay Statistics API
+  description: Parking statistics export
+  humanURL: https://developer.autopay.io
+  tags:
+  - Statistics
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-statistics-api-openapi.yml
+- aid: autopay:autopay-status-api
+  name: Autopay Status API
+  description: Zone availability and detailed parking session status
+  humanURL: https://developer.autopay.io
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-status-api-openapi.yml
+- aid: autopay:autopay-vehicle-api
+  name: Autopay Vehicle API
+  description: Vehicle permit and session lookups
+  humanURL: https://developer.autopay.io
+  tags:
+  - Vehicle
+  properties:
+  - type: OpenAPI
+    url: openapi/autopay-vehicle-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/autopay-agentic-access.yml
