@@ -1,0 +1,32 @@
+{
+  "provider": "autopay",
+  "sources": [
+    "autopay-accounting-api-openapi.yml",
+    "autopay-booking-api-openapi.yml",
+    "autopay-customer-club-api-openapi.yml",
+    "autopay-fleet-api-openapi.yml",
+    "autopay-parking-api-openapi.yml",
+    "autopay-payment-api-openapi.yml",
+    "autopay-permit-api-openapi.yml",
+    "autopay-statistics-api-openapi.yml",
+    "autopay-status-api-openapi.yml",
+    "autopay-vehicle-api-openapi.yml"
+  ],
+  "outputs": [
+    "autopay-accounting-api-openapi.yml",
+    "autopay-booking-api-openapi.yml",
+    "autopay-customer-club-api-openapi.yml",
+    "autopay-fleet-api-openapi.yml",
+    "autopay-parking-api-openapi.yml",
+    "autopay-payment-api-openapi.yml",
+    "autopay-permit-api-openapi.yml",
+    "autopay-statistics-api-openapi.yml",
+    "autopay-status-api-openapi.yml",
+    "autopay-vehicle-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
