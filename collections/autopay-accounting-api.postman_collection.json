@@ -1,0 +1,203 @@
+{
+  "item": [
+    {
+      "id": "07bab460-cf35-4d67-9439-af83e3bf421a",
+      "name": "Accounting",
+      "description": {
+        "content": "Invoice export for accounting and ERP reconciliation",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "27b58eb8-7f31-461c-b896-b494c34abc75",
+          "name": "List invoices",
+          "request": {
+            "name": "List invoices",
+            "description": {
+              "content": "Retrieve Autopay invoices. At least one date range must be provided — either `from`/`to` (data update time) or `invoice_date_from`/`invoice_date_to` (invoice date).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounting",
+                "v1",
+                "invoices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "invoice_date_from",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "invoice_date_to",
+                  "value": "<date>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0e3cf5ec-7333-4ca3-b02b-7cebcd37590a",
+              "name": "Invoices payload with pagination summary",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounting",
+                    "v1",
+                    "invoices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "invoice_date_from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "invoice_date_to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"summary\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.autopay.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "permit_booking customer_club zone_status"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-auth.autopay.io/oauth/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "729aa7a5-1448-4efa-bc28-4756db53017a",
+    "name": "Autopay Accounting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.\n\nContact Support:\n Name: Autopay Developer Portal",
+      "type": "text/plain"
+    }
+  }
+}

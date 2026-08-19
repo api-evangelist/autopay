@@ -1,0 +1,265 @@
+{
+  "item": [
+    {
+      "id": "7c026b94-b522-45df-93da-01ae0efa04c7",
+      "name": "Payment",
+      "description": {
+        "content": "External payment registration and parking connection",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dc35dc5f-5084-413a-b02d-e140f802ce8d",
+          "name": "Register an external payment and connect it to parking",
+          "request": {
+            "name": "Register an external payment and connect it to parking",
+            "description": {},
+            "url": {
+              "path": [
+                "payment",
+                "v1",
+                "connect_parking"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c6e58b2a-41e2-43f2-aac5-a8a276ef2acf",
+              "name": "Payment connected",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payment",
+                    "v1",
+                    "connect_parking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "78d6fc2b-89f7-46ff-a595-f94b74fea99f",
+          "name": "Request manual stopping of parking",
+          "request": {
+            "name": "Request manual stopping of parking",
+            "description": {},
+            "url": {
+              "path": [
+                "payment",
+                "v1",
+                "manual_stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "974da502-082d-4b5d-98c1-c910eb90828e",
+              "name": "Manual stop requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "payment",
+                    "v1",
+                    "manual_stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.autopay.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "permit_booking customer_club zone_status"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-auth.autopay.io/oauth/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3228bf3e-772a-4c40-8879-f68340a4ecb6",
+    "name": "Autopay Accounting Payment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.\n\nContact Support:\n Name: Autopay Developer Portal",
+      "type": "text/plain"
+    }
+  }
+}

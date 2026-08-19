@@ -1,0 +1,193 @@
+{
+  "item": [
+    {
+      "id": "056e20dc-677e-4695-9194-4ea4779f5c8c",
+      "name": "Statistics",
+      "description": {
+        "content": "Parking statistics export",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "91f9aa65-469c-4c22-8028-c2e4f738d3f9",
+          "name": "Export parking statistics",
+          "request": {
+            "name": "Export parking statistics",
+            "description": {
+              "content": "At least one date range must be provided — either `from`/`to` (parking time) or `updated_at_from`/`updated_at_to` (record update time). Rate limited to one query per 5 minutes per zone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "statistics",
+                "v1",
+                "parking"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "updated_at_from",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "updated_at_to",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "zone_code",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cdbe90ac-ec9a-4561-8c1b-75bf7c623fa1",
+              "name": "Parking statistics",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "statistics",
+                    "v1",
+                    "parking"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "updated_at_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "updated_at_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "zone_code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.autopay.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "permit_booking customer_club zone_status"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-auth.autopay.io/oauth/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9238c608-7af8-4ae0-b3c5-d5214bd0cabd",
+    "name": "Autopay Accounting Statistics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.\n\nContact Support:\n Name: Autopay Developer Portal",
+      "type": "text/plain"
+    }
+  }
+}

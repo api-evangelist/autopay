@@ -1,0 +1,156 @@
+{
+  "item": [
+    {
+      "id": "421a59e1-3631-4393-bd34-6ca109be46a4",
+      "name": "Vehicle",
+      "description": {
+        "content": "Vehicle permit and session lookups",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "44b60414-4304-4fa8-ad16-9115eee2069b",
+          "name": "Look up vehicle permit and active session in a zone",
+          "request": {
+            "name": "Look up vehicle permit and active session in a zone",
+            "description": {},
+            "url": {
+              "path": [
+                "vehicle",
+                "v1",
+                "permit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "vehicle",
+                  "value": "<string>",
+                  "description": "(Required) Vehicle registration / license plate"
+                },
+                {
+                  "disabled": false,
+                  "key": "zone_id",
+                  "value": "<integer>",
+                  "description": "(Required) Parking zone ID (can be repeated for multiple zones)"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0654d108-ef6b-4815-b9b5-0fddbf1d4527",
+              "name": "Permit and session status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "vehicle",
+                    "v1",
+                    "permit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "vehicle",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "zone_id",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.autopay.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "permit_booking customer_club zone_status"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-auth.autopay.io/oauth/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1216333b-dea2-41a3-abf3-0f10a8fe9158",
+    "name": "Autopay Accounting Vehicle API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.\n\nContact Support:\n Name: Autopay Developer Portal",
+      "type": "text/plain"
+    }
+  }
+}

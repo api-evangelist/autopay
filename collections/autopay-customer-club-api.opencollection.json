@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Autopay Accounting Customer Club API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customer Club",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a customer to a customer club",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/customer_club/v2/join",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Add a customer to a customer club"
+        },
+        {
+          "info": {
+            "name": "Get membership registration status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/customer_club/v2/status/:registrationId",
+            "params": [
+              {
+                "name": "registrationId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get membership registration status"
+        },
+        {
+          "info": {
+            "name": "Cancel a customer club membership",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.autopay.io/customer_club/v2/leave/:registration_id",
+            "params": [
+              {
+                "name": "registration_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Cancel a customer club membership"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

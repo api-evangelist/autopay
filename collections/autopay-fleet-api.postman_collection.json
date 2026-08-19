@@ -1,0 +1,806 @@
+{
+  "item": [
+    {
+      "id": "72919478-41ad-4144-83f7-a56c33a6153e",
+      "name": "Fleet",
+      "description": {
+        "content": "Fleet vehicle management and parking/toll service retrieval",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bb3b8b21-3e08-4203-9560-bbcaf5275d12",
+          "name": "Retrieve all fleet vehicles",
+          "request": {
+            "name": "Retrieve all fleet vehicles",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "vehicles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "54f9a932-4689-4ae3-911a-1ebdb0a85a3f",
+              "name": "Fleet vehicles",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "vehicles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "35b8057d-732b-43a9-a979-8a07cf631d0a",
+          "name": "Add a vehicle to the fleet",
+          "request": {
+            "name": "Add a vehicle to the fleet",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "vehicles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1a8fe60b-abe6-41b5-86e7-7113e06d6f69",
+              "name": "Vehicle added",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "vehicles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8b2fd573-f16d-4056-9468-b2eba0f49893",
+          "name": "Remove a vehicle from the fleet",
+          "request": {
+            "name": "Remove a vehicle from the fleet",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "vehicles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "40f1cfa1-5d3a-44a2-b188-138fab5bc2b0",
+              "name": "Vehicle removed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "vehicles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f06eeca2-7d88-4873-b9d3-72191be8c237",
+          "name": "Detach vehicle from all user profiles",
+          "request": {
+            "name": "Detach vehicle from all user profiles",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "vehicles",
+                "detach"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b4cb8a8f-3e65-4649-bf2c-e166914f60e8",
+              "name": "Vehicle detached",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "vehicles",
+                    "detach"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce2c094b-e84b-442e-b9f9-532776c3837c",
+          "name": "Retrieve all parkings and toll road passings",
+          "request": {
+            "name": "Retrieve all parkings and toll road passings",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "services"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "58a481e0-4a0d-492c-a6c3-c991239d44e5",
+              "name": "Services list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "services"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40c72d71-74a0-41e8-ba93-1303842037f0",
+          "name": "Retrieve services filtered by update timestamp",
+          "request": {
+            "name": "Retrieve services filtered by update timestamp",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "services",
+                "by_updated_at"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "322d840d-a8c3-4e50-a575-a392be650505",
+              "name": "Services list filtered by update timestamp",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "services",
+                    "by_updated_at"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f623f009-f461-48bc-ad2e-794870dc734b",
+          "name": "Retrieve services for a specific vehicle",
+          "request": {
+            "name": "Retrieve services for a specific vehicle",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "vehicles",
+                "services"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b5bf9102-de30-4704-ac97-ce3d215a9a77",
+              "name": "Services for vehicle",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "vehicles",
+                    "services"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c1a95fdd-f874-418d-acbd-d57100e48540",
+          "name": "Lock payments for unpaid services",
+          "request": {
+            "name": "Lock payments for unpaid services",
+            "description": {},
+            "url": {
+              "path": [
+                "fleet",
+                "v2",
+                "vehicles",
+                "disable_payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "permit_booking customer_club zone_status"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api-auth.autopay.io/oauth/token"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7e8e302e-525c-4c8b-8b02-226dc1411a42",
+              "name": "Payments locked",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fleet",
+                    "v2",
+                    "vehicles",
+                    "disable_payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.autopay.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "permit_booking customer_club zone_status"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api-auth.autopay.io/oauth/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b004587e-63a4-4b7b-ba41-0f1c292d2b31",
+    "name": "Autopay Accounting Fleet API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.\n\nContact Support:\n Name: Autopay Developer Portal",
+      "type": "text/plain"
+    }
+  }
+}

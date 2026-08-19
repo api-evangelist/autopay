@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Autopay Accounting Status API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get zone status (available spaces and active sessions)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/status/v1/zone/:zone_code",
+            "params": [
+              {
+                "name": "zone_code",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get zone status (available spaces and active sessions)"
+        },
+        {
+          "info": {
+            "name": "Get detailed parking session information for a zone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/status/v1/zone_details/:zone_code",
+            "params": [
+              {
+                "name": "zone_code",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Get detailed parking session information for a zone"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

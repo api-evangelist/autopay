@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Autopay Accounting Parking API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Parking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Change parking product on an active session",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.autopay.io/parking/product/:parkingSessionId",
+            "params": [
+              {
+                "name": "parkingSessionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Change parking product on an active session"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

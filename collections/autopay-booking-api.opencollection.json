@@ -1,0 +1,185 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Autopay Accounting Booking API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Booking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List permit definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/booking/v3/permit_definitions",
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "List permit definitions"
+        },
+        {
+          "info": {
+            "name": "Check booking availability",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/booking/v3/availability",
+            "params": [
+              {
+                "name": "valid_from",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Check booking availability"
+        },
+        {
+          "info": {
+            "name": "Get booking status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.autopay.io/booking/v3/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Rate limited to one query per booking per 900 seconds."
+        },
+        {
+          "info": {
+            "name": "Create a booking",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.autopay.io/booking/v3/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Create a booking"
+        },
+        {
+          "info": {
+            "name": "Modify an existing booking",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.autopay.io/booking/v3/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Modify an existing booking"
+        },
+        {
+          "info": {
+            "name": "Remove an unused booking",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.autopay.io/booking/v3/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "client_credentials",
+              "accessTokenUrl": "https://api-auth.autopay.io/oauth/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Remove an unused booking"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
