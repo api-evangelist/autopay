@@ -1,0 +1,25 @@
+slug: autopay
+provider: Autopay
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Automotive & Mobility
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Booking
+  spec_file: autopay-booking-api-openapi.yml
+  capability_id: BC-3490.20
+  capability_id_l1: BC-3490
+  capability_name: Trip and Booking Operations
+  confidence: 0.72
+  evidence: '"Check booking availability", "Create a booking", "Modify an existing booking", "Remove an
+    unused booking", "Get booking status"'
+  reason: Full create/modify/cancel/status lifecycle for parking bookings, i.e. booking capture and lifecycle
+    management for a mobility (parking) service.

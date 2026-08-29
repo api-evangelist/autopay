@@ -263,6 +263,9 @@ apis:
   - type: OpenAPI
     url: openapi/autopay-vehicle-api-openapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/autopay-capability-edges.yml
+    name: Autopay Business Capability Map
   - type: AgenticAccess
     url: agentic-access/autopay-agentic-access.yml
   - type: VulnerabilityDisclosure
