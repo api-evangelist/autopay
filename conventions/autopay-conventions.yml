@@ -1,0 +1,218 @@
+generated: '2026-09-06'
+method: searched
+source: https://developer.autopay.io/ (authentication, api_deprecation, and the 14 API reference pages)
+description: >-
+  Cross-cutting runtime semantics for the Autopay API surface, read from the provider's own
+  developer portal and cross-checked against the OpenAPI in openapi/. Autopay documents a
+  consistent auth model, a consistent error envelope and an opaque-cursor pagination style,
+  but publishes no idempotency mechanism, no request-id header and no rate-limit response
+  headers.
+authentication:
+  style: oauth2-client-credentials
+  token_endpoint: https://api-auth.autopay.io/oauth/token
+  audience: https://api.autopay.io
+  transport: 'Authorization: Bearer <token>'
+  token_lifetime: Short-lived — "usually 10-24 hours"; the exact value is returned in expires_in (86400 in the documented example).
+  scope_delivery: The token response carries a `scope` string naming the Autopay APIs the token can reach (e.g. "customer_club").
+  per_operator_credentials: >-
+    Credentials are bound to ONE operator. A provider integrating across several operators
+    receives a distinct client_id/client_secret per operator and must send the right pair
+    per call; there is no cross-operator credential.
+  anti_pattern_warned_by_provider: >-
+    "Generating excessive access tokens within the expiration time (i.e. requesting a new one
+    for each request) may lead to termination of API access." Agents MUST cache the token
+    until expiry.
+  docs: https://developer.autopay.io/authentication/
+  see_also: authentication/autopay-authentication.yml
+idempotency:
+  coverage: none
+  scope: []
+  mechanism: null
+  header: null
+  retention: null
+  note: >-
+    Autopay publishes no idempotency key, no replay-safe retry contract and no de-duplication
+    guarantee on any of its own write operations (POST /booking/v3, POST /payment/v1/connect_parking,
+    POST /permit/v3/end_user_permit, POST /fleet/v2/vehicles, POST /customer_club/v2/join,
+    PUT /parking/product/{parkingSessionId}, PUT /price/v1/product/{id}). The only idempotency
+    guidance in the documentation runs in the OPPOSITE direction — it tells the INTEGRATOR to
+    make their own callback endpoint idempotent, "typically by treating the parking_id as an
+    idempotency key", because Autopay may redeliver a callback. That is the integrator's
+    obligation, not a mechanism Autopay offers, so coverage is none.
+  provider_side_dedupe_hints:
+  - Payment API returns server_communication_error / "Payment provider already registered" when a parking session is already claimed, which makes a duplicate connect_parking detectable after the fact but not safe to replay.
+  - Tap & Park returns parking_validation_validation_already_exists when a validation for the vehicle already exists.
+  docs: https://developer.autopay.io/payment_api/
+pagination:
+  style: opaque-cursor
+  parameters:
+  - name: cursor
+    in: query
+    description: Opaque continuation token returned by the previous page. Must be replayed verbatim; a constructed value returns cursor_decoding_error.
+  applies_to:
+  - GET /fleet/v2/services
+  - GET /fleet/v2/services/by_updated_at
+  - GET /fleet/v2/services/by_end_time
+  - GET /statistics/v1/parking
+  - GET /accounting/v1/invoices
+  time_window_alternative: >-
+    The large export endpoints are primarily walked by time window rather than by page —
+    from/to (data-update time) or invoice_date_from/invoice_date_to (invoice date) on
+    Accounting, updated_at_from/updated_at_to on Statistics, end_time_from/end_time_to on
+    Fleet services. The provider's own guidance is to carry the previous request's `to` value
+    forward as the next request's `from` to avoid gaps.
+  errors:
+  - cursor_decoding_error
+  docs: https://developer.autopay.io/fleet-api/
+field_expansion:
+  supported: false
+  note: No expand / fields / sparse-fieldset parameter is documented anywhere in the reference.
+metadata:
+  supported: partial
+  fields:
+  - name: operator_data
+    api: Booking API
+    description: JSON-formatted string carrying operator-specific information (payment, client, flight_information) on a booking.
+  - name: service_data
+    api: Fleet API
+    description: Free-form map of additional data on a fleet service notification.
+  - name: comment
+    api: Booking API
+request_tracing:
+  request_id_header: null
+  correlation_id: null
+  note: >-
+    No X-Request-Id, X-Correlation-Id or trace header is documented on requests or responses.
+    The closest durable handles an agent can log are the resource identifiers the API returns:
+    parking_id (Payment), parking_session_id / event_id (Parking webhook), booking_id (Booking),
+    registrationId (Customer Club) and the service id (Fleet).
+versioning:
+  style: path-segment
+  pattern: /<product>/v<major>/...
+  current_versions:
+    accounting: v1
+    booking: v3
+    customer_club: v2
+    fleet: v2
+    parking: unversioned (/parking/product/{parkingSessionId})
+    payment: v1
+    permit_landlord: v2
+    permit_operator: v1
+    permit_tenant: v3
+    price: v1
+    statistics: v1
+    status: v1
+    tapnpark: unversioned (/tnp/validation)
+    vehicle: v1
+  breaking_change_policy: >-
+    "All breaking changes are published 6 months prior to release." New fields may be
+    introduced to non-beta APIs without prior notice. APIs marked beta may change without
+    notice.
+  note: >-
+    Two live surfaces carry no version segment at all — the Parking product change and the
+    Tap & Park validation endpoint — so a version pin is not available for them.
+  see_also: lifecycle/autopay-lifecycle.yml
+error_envelope:
+  shape: '{ "error_id": string, "message": string, "description"?: string }'
+  rfc9457: false
+  discriminator: error_id
+  exception: The token endpoint returns the RFC 6749 shape { "error", "error_description" }.
+  see_also: errors/autopay-problem-types.yml
+rate_limit_signaling:
+  response_headers: []
+  status_on_exhaustion: null
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header is documented, and no 429 is
+    documented anywhere in the reference. Exhaustion surfaces as an error_id in a normal
+    error body instead — query_limit_error on the Booking status endpoint (one query per
+    900 seconds per client per booking) and on the Status API ("Too many queries").
+  see_also: rate-limits/autopay-rate-limits.yml
+dry_run_mode:
+  supported: false
+  note: >-
+    No preview, validate-only or simulate parameter exists on any write operation, and the
+    Payment API states plainly that "there is no formal staging environment for the Payment
+    API at present". The closest rehearsal available is a read: GET /booking/v3/availability
+    checks whether a booking can be placed for a time window before POSTing it.
+reversibility:
+  grade: verified
+  summary: >-
+    Every create in the Autopay surface has a documented reversal, and the Booking API states
+    the exact condition boundary inside which the reversal works. The reversals are
+    condition-scoped (session/booking state), not time-boxed, so the "window" is a state
+    rather than a duration — which is stated by the provider and therefore recorded here.
+  surfaces:
+  - write: POST /booking/v3 (create a booking)
+    reversal: DELETE /booking/v3/{id}
+    window: >-
+      Only while the booking has not been used. "Booking is already used, cannot delete"
+      (error_id delete_booking_error_booking_used). Booking status must be NOT_USED;
+      IN_USE, USED and EXPIRED bookings cannot be deleted.
+    partial_reversal: >-
+      PUT /booking/v3/{id} can amend a booking, but id, type and the anonymous flag can never
+      be changed; valid_from and license_plate_number cannot be changed once the booking is
+      IN_USE; and USED or EXPIRED bookings cannot be changed at all.
+    expiry: ENTRY-type bookings expire at expiration_time, defaulting to one year after creation if not set.
+    docs: https://developer.autopay.io/booking_api/
+    grade: verified
+  - write: POST /permit/v3/end_user_permit (issue a permit to an end user)
+    reversal: DELETE /permit/v3/end_user_permit/{permit_id}
+    window: Not stated. PUT /permit/v3/end_user_permit/{permit_id} can shorten validity dates as a partial reversal.
+    docs: https://developer.autopay.io/permit_tenant_api/
+    grade: documented
+  - write: POST /customer_club/v2/join (enrol a member)
+    reversal: DELETE /customer_club/v2/leave/{registration_id}
+    window: Not stated.
+    docs: https://developer.autopay.io/customer_club_api/
+    grade: documented
+  - write: POST /customer_club/v2/add_vehicle
+    reversal: DELETE /customer_club/v2/remove_vehicle/{vehicle_id}
+    window: Not stated.
+    docs: https://developer.autopay.io/customer_club_api/
+    grade: documented
+  - write: POST /fleet/v2/vehicles (add a vehicle to a fleet)
+    reversal: DELETE /fleet/v2/vehicles, and POST /fleet/v2/vehicles/detach to unlink a vehicle from all user profiles.
+    window: Not stated.
+    docs: https://developer.autopay.io/fleet-api/
+    grade: documented
+  - write: POST /payment/v1/connect_parking (claim billing responsibility for a live session)
+    reversal: none
+    window: >-
+      NOT REVERSIBLE by the integrator. Once a session is claimed it is marked as paid in
+      Autopay and the payment provider owns the charge; a second claim returns
+      server_communication_error / "Payment provider already registered". POST
+      /payment/v1/manual_stop is NOT an undo — it closes the session and triggers a success
+      callback with a real cost, and the docs say explicitly it "should not be used to allow
+      customers to finish their parking using the external payment application".
+    docs: https://developer.autopay.io/payment_api/
+    grade: verified
+  - write: PUT /parking/product/{parkingSessionId} (change the product on a live session)
+    reversal: Re-issue the PUT with the previous product id.
+    window: While the parking session is active and not in an error state (invalid_status).
+    docs: https://developer.autopay.io/parking_api/
+    grade: documented
+  - write: POST /tnp/validation (validate a parking session)
+    reversal: none documented
+    window: A second validation for the same vehicle is refused (parking_validation_validation_already_exists) rather than replacing the first.
+    docs: https://developer.autopay.io/tapnpark_api/
+    grade: documented
+  - write: PUT /price/v1/product/{id} (change a product price)
+    reversal: Re-issue the PUT with the previous price definition.
+    window: Not stated.
+    docs: https://developer.autopay.io/price_api/
+    grade: documented
+  agent_guidance: >-
+    The one irreversible action on this surface is claiming a live parking session for
+    payment. An agent should treat POST /payment/v1/connect_parking as a commit point,
+    confirm the vehicle and parking_area_code before calling it, and never retry it blindly
+    on a network error — check for server_communication_error first.
+callbacks:
+  direction: Autopay -> integrator
+  note: See asyncapi/autopay-webhooks.yml for the full event catalog, delivery guarantees and retry policy.
+cross_references:
+  errors: errors/autopay-problem-types.yml
+  lifecycle: lifecycle/autopay-lifecycle.yml
+  authentication: authentication/autopay-authentication.yml
+  scopes: scopes/autopay-scopes.yml
+  rate_limits: rate-limits/autopay-rate-limits.yml
+  webhooks: asyncapi/autopay-webhooks.yml

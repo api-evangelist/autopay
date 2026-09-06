@@ -1,0 +1,199 @@
+generated: '2026-09-06'
+method: derived
+source: openapi/*.yml plus the object tables published on https://developer.autopay.io/
+description: >-
+  Entity-relationship graph for the Autopay parking domain, derived from the request/response
+  field tables in the developer reference and the schemas in openapi/. Autopay publishes no
+  object reference and no $ref-linked component schemas, so relationships below are read from
+  id-bearing fields that cross entity boundaries (e.g. parking_session_id on the Parking
+  webhook, permit_definition_id on a booking) rather than from schema references.
+identifier_conventions:
+  prefixes: none — Autopay ids carry no type prefix.
+  formats:
+  - entity: permit_definition_id
+    format: UUID string (since Booking v3; previously an integer)
+    source: https://developer.autopay.io/booking_api/
+  - entity: fleet service id
+    format: UUID string
+    source: https://developer.autopay.io/fleet-api/
+  - entity: parking_id, parking_session_id, booking_id, registrationId, invoice id
+    format: opaque string, no stated format
+  natural_keys:
+  - >-
+    license_plate_number (+ country code) is the join key across the whole platform — it is how
+    Autopay links a detected vehicle to a fleet, a customer club membership, a permit and an
+    external payment provider's customer. The Customer Club API also exposes a HASHED plate
+    lookup (GET /customer_club/v2/get_vehicle_id/{hashed_license_plate_number}).
+  - facility.code + zone.code are operator-assigned codes, not surrogate ids.
+  - >-
+    The Payment API adds a THIRD naming for a zone: parking_area_code, "external payment
+    provider's code for the parking facility or zone", chosen by the integrator and mapped to
+    an Autopay zone by the operator at onboarding.
+entities:
+- name: Operator
+  description: The parking operator. The tenancy boundary — every credential is bound to exactly one operator.
+  identifier: operator_id
+  relationships:
+  - {type: has_many, target: Facility}
+  - {type: has_many, target: Landlord}
+- name: Landlord
+  description: The owner of a parking facility, who allocates permits to tenants.
+  identifier: landlord_id
+  relationships:
+  - {type: belongs_to, target: Operator}
+  - {type: has_many, target: Tenant, via: 'GET /permit/v2/landlord/{landlordId}/tenants'}
+  - {type: has_many, target: PermitDefinition}
+  - {type: has_many, target: PermitAllocation}
+- name: Tenant
+  description: A business or resident holding a permit quota inside a landlord's property.
+  identifier: tenantId
+  relationships:
+  - {type: belongs_to, target: Landlord}
+  - {type: has_many, target: PermitAllocation}
+  - {type: has_many, target: Booking}
+- name: Facility
+  description: A physical parking site.
+  identifier: facility.code
+  fields: [code, name, time_zone]
+  relationships:
+  - {type: belongs_to, target: Operator}
+  - {type: has_many, target: Zone}
+- name: Zone
+  description: A parking area inside a facility. The unit access, pricing and status are scoped to.
+  identifier: zone.code
+  fields: [code, name]
+  relationships:
+  - {type: belongs_to, target: Facility}
+  - {type: has_many, target: ParkingSession}
+  - {type: has_many, target: Product}
+- name: Vehicle
+  description: A vehicle, identified by its registration plate. Autopay is an ANPR platform; the plate is the primary customer handle.
+  identifier: license_plate_number + country_code (ISO 3166-1 alpha-2) [+ subdivision]
+  relationships:
+  - {type: has_many, target: ParkingSession}
+  - {type: has_many, target: Permit}
+  - {type: belongs_to, target: Fleet, via: 'POST /fleet/v2/vehicles'}
+  - {type: has_many, target: CustomerClubMembership}
+- name: ParkingSession
+  description: One vehicle's stay in a zone, from entry event to exit event.
+  identifier: parking_session_id (Parking API) / parking_id (Payment API and Parking webhook)
+  relationships:
+  - {type: belongs_to, target: Zone}
+  - {type: belongs_to, target: Vehicle}
+  - {type: has_one, target: Product, via: 'PUT /parking/product/{parkingSessionId}'}
+  - {type: has_one, target: ExternalPayment, via: 'POST /payment/v1/connect_parking'}
+  - {type: has_many, target: InvoiceItem}
+  states: [active, ended, cancelled, manually-stopped, error]
+  note: >-
+    parking_id and parking_session_id are BOTH emitted on the Parking entry webhook and are not
+    the same field — parking_session_id is the handle for the product-change endpoint, parking_id
+    is the handle the Payment API and its callbacks use.
+- name: EntryEvent
+  description: An ANPR detection of a vehicle entering a zone. Delivered as a webhook, not readable over REST.
+  identifier: event_id
+  fields: [event_id, time_in_utc, lane, confidence]
+  relationships:
+  - {type: belongs_to, target: ParkingSession}
+  - {type: belongs_to, target: Vehicle}
+  note: >-
+    A correction (e.g. a re-read plate) is redelivered with the SAME event_id — consumers must
+    upsert. Entry and exit events also carry an image_url_with_auth on the Accounting API.
+- name: Product
+  description: The priced parking product applied to a session (e.g. "Central Station 4h product").
+  identifier: product id (operator-assigned)
+  relationships:
+  - {type: belongs_to, target: Zone}
+  - {type: has_many, target: Price, via: 'PUT /price/v1/product/{id}'}
+- name: Price
+  description: A price definition attached to a product.
+  types: [REGULAR, DYNAMIC, ACCUMULATIVE_24H_MAX]
+  fields: [amount, period, hourly_amounts, restrictions]
+  restriction_types: [WEEKDAYS, FROM_DURATION, UNTIL_DURATION]
+  relationships:
+  - {type: belongs_to, target: Product}
+- name: PermitDefinition
+  description: A template describing a kind of permit, with a joint access limit.
+  identifier: permit_definition_id (UUID)
+  relationships:
+  - {type: belongs_to, target: Landlord}
+  - {type: has_many, target: PermitAllocation}
+  - {type: has_many, target: Booking}
+- name: PermitAllocation
+  description: A quota of a permit definition granted by a landlord to a tenant.
+  identifier: permitAllocationId
+  relationships:
+  - {type: belongs_to, target: PermitDefinition}
+  - {type: belongs_to, target: Tenant}
+  - {type: has_many, target: Permit}
+- name: Permit
+  description: A permit issued from an allocation to an end user's vehicle.
+  identifier: permit_id
+  relationships:
+  - {type: belongs_to, target: PermitAllocation}
+  - {type: belongs_to, target: Vehicle}
+  reversal: 'DELETE /permit/v3/end_user_permit/{permit_id}'
+- name: Booking
+  description: A pre-booked parking permit for a vehicle, either FIXED (a date range) or ENTRY (valid from first entry).
+  identifier: booking_id
+  fields: [type, valid_from, valid_to, duration, license_plate_number, permit_definition_id, usable_once, anonymous_booking, expiration_time, operator_data, comment]
+  states: [NOT_USED, IN_USE, USED, EXPIRED]
+  relationships:
+  - {type: belongs_to, target: PermitDefinition}
+  - {type: belongs_to, target: Tenant}
+  - {type: has_one, target: Vehicle, description: Optional — an anonymous booking is created without a plate and linked later at a kiosk.}
+  - {type: has_one, target: ParkingSession}
+- name: Fleet
+  description: A company vehicle fleet with its own profile level.
+  relationships:
+  - {type: has_many, target: Vehicle}
+  - {type: has_many, target: FleetService}
+- name: FleetService
+  description: A billable event for a fleet vehicle — a parking or a toll-road passing.
+  identifier: id (UUID)
+  fields: [type (PARKING|TOLL_ROAD), start_time, end_time, updated_at, service_data]
+  relationships:
+  - {type: belongs_to, target: Fleet}
+  - {type: belongs_to, target: Vehicle}
+  - {type: belongs_to, target: Zone}
+- name: CustomerClubMembership
+  description: A loyalty membership that applies a differentiated permit or discount to a vehicle.
+  identifier: registrationId / vehicle_id
+  integration_types: [Regular, 'External (webhook lookup)', Anonymous]
+  relationships:
+  - {type: belongs_to, target: Vehicle}
+- name: ExternalPayment
+  description: A third-party payment provider's claim on a parking session.
+  identifier: parking_id (Autopay side) + reference (provider side)
+  relationships:
+  - {type: has_one, target: ParkingSession}
+  lifecycle: connect_parking -> (exit | manual_stop) -> success callback | cancel callback
+- name: Invoice
+  description: An Autopay invoice exported to the operator's accounting system.
+  identifier: id
+  fields: [batch_id, status (PAID|UNPAID), operator, invoice_date, currency, items]
+  relationships:
+  - {type: has_many, target: InvoiceItem}
+  - {type: belongs_to, target: Operator}
+- name: InvoiceItem
+  description: A single charged line — one parking session by one vehicle or client.
+  fields: [id, description, vat_percent, gross_price, parking_session, permit, product_name, receipt_url_with_auth]
+  relationships:
+  - {type: belongs_to, target: Invoice}
+  - {type: belongs_to, target: ParkingSession}
+  note: >-
+    Receipts and entry/exit images are JWT-protected as of the 2026-02-19 deprecation; use
+    receipt_url_with_auth and image_url_with_auth, and download rather than store the URL —
+    "downloadable items are only available for some time after the transaction".
+graph_notes:
+- >-
+  The whole model funnels through ParkingSession: entry event creates it, a product prices it,
+  a permit or booking or customer-club membership may discount it, an external payment provider
+  may claim it, and an invoice item settles it.
+- >-
+  There is no single "customer" entity. The platform identifies people by vehicle plate on the
+  operator side, by registrationId on the customer-club side and by the integrator's own
+  `reference` on the payment side. Any agent joining these is doing the join itself.
+coverage:
+  entities: 20
+  source_specs: 10
+  documented_apis_without_a_spec_in_this_repo: [Permit Landlord API, Permit Operator API, Price API, Tap & Park API]

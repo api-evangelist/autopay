@@ -1,0 +1,38 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  registry.npmjs.org search, pypi.org, rubygems.org, packagist.org, crates.io, and a full-text
+  read of all 17 pages of https://developer.autopay.io/
+description: >-
+  Autopay publishes no client libraries. The developer portal is a plain HTML reference with
+  cURL-shaped request/response examples and no SDK, code-sample or download section on any of
+  its 17 pages, and no first-party package exists in any public registry.
+package_count: 0
+official_sdk_count: 0
+packages: []
+searches:
+- registry: npm
+  query: autopay
+  endpoint: https://registry.npmjs.org/-/v1/search?text=autopay
+  checked: '2026-09-06'
+  result: >-
+    20 results, none first-party. Every hit belongs to an unrelated project — medusa-payment-autopay,
+    @autopayprotocol/* (a crypto subscription protocol), UPI Autopay tooling, bcts-autopay. No
+    package references autopay.io or api.autopay.io.
+- registry: docs
+  query: SDK / client library / code sample links on developer.autopay.io
+  checked: '2026-09-06'
+  result: >-
+    None. A link scan of all 17 portal pages returned no .json/.yaml/.yml/swagger/openapi asset
+    and no GitHub, npm, PyPI or Maven link.
+- registry: github
+  query: github.com/autopay
+  checked: '2026-09-06'
+  result: >-
+    HTTP 200, but the account is a personal GitHub USER account (login AUTOPAY, id 11621255,
+    type "User"), not Autopay Technologies AS. No GitHubOrganization pointer is emitted for
+    this provider.
+consumer_impact: >-
+  An integrator writes the HTTP client themselves. There is no versioned first-party artifact
+  to read decay from, so SDK staleness is not an available signal for this provider — the
+  absence is the finding, not a gap in the probe.

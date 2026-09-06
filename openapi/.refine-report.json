@@ -27,6 +27,18 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "autopay-accounting-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-booking-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-customer-club-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-fleet-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-parking-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-payment-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-permit-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-statistics-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-status-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "autopay-vehicle-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

@@ -42,7 +42,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/autopay.png
 access: 3rd-Party
 created: '2025-02-08'
-modified: '2026-04-19'
+modified: '2026-09-06'
 url: >-
   https://raw.githubusercontent.com/api-evangelist/autopay/refs/heads/main/apis.yml
 specificationVersion: '0.23'
@@ -53,6 +53,7 @@ apis:
     The Autopay Accounting API provides Autopay invoicing data to external accounting and ERP systems,
     enabling automated reconciliation of parking revenue and invoice export.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Accounting
   - Invoicing
@@ -68,6 +69,7 @@ apis:
     The Autopay Booking API enables assignment of anonymous parking permits to vehicles, supporting short-term
     and pre-booked parking allocations in managed parking facilities.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Booking
   - Parking Permits
@@ -82,6 +84,7 @@ apis:
     integration with parking gate systems, sensors, and barrier control equipment to track vehicle arrivals
     and departures in parking zones.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Parking Sessions
   - Zone Entry
@@ -95,6 +98,7 @@ apis:
     The Autopay Payment API enables third-party systems to take payment responsibility for parking sessions,
     supporting employer-paid parking, fleet-billed parking, and visitor parking validation workflows.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Payments
   - Parking Payment
@@ -109,6 +113,7 @@ apis:
     including adding vehicles, modifying permit allocations, and tracking permit usage within their assigned
     quota.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Permits
   - Tenant Management
@@ -122,6 +127,7 @@ apis:
     The Autopay Fleet API provides fleet information for company vehicle fleets, enabling fleet managers
     to track vehicle parking activity, costs, and permit usage across all fleet vehicles.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Fleet Management
   - Vehicle Tracking
@@ -136,6 +142,7 @@ apis:
     on occupancy rates, revenue, session volumes, and permit utilization for parking facility management
     and reporting.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Analytics
   - Statistics
@@ -151,6 +158,7 @@ apis:
     information on vehicle presence, active session status, and permit validity for enforcement and access
     control purposes.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Vehicle Data
   - Zone Status
@@ -164,6 +172,7 @@ apis:
     The Autopay Tap and Park API enables third-party applications to validate parking sessions in Autopay-managed
     zones, supporting contactless parking validation via NFC, mobile apps, or access control systems.
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Parking Validation
   - NFC
@@ -176,92 +185,142 @@ apis:
   name: Autopay Accounting API
   description: Invoice export for accounting and ERP reconciliation
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Accounting
   properties:
   - type: OpenAPI
     url: openapi/autopay-accounting-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-accounting-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/accounting/
 - aid: autopay:autopay-booking-api
   name: Autopay Booking API
   description: Permit booking creation, modification, status, and availability
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Booking
   properties:
   - type: OpenAPI
     url: openapi/autopay-booking-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-booking-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/booking_api/
 - aid: autopay:autopay-customer-club-api
   name: Autopay Customer Club API
   description: Customer club membership management
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Customer Club
   properties:
   - type: OpenAPI
     url: openapi/autopay-customer-club-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-customer-club-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/customer_club_api/
 - aid: autopay:autopay-fleet-api
   name: Autopay Fleet API
   description: Fleet vehicle management and parking/toll service retrieval
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Fleet
   properties:
   - type: OpenAPI
     url: openapi/autopay-fleet-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-fleet-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/fleet-api/
 - aid: autopay:autopay-parking-api
   name: Autopay Parking API
   description: Parking session product changes
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Parking
   properties:
   - type: OpenAPI
     url: openapi/autopay-parking-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-parking-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/parking_api/
 - aid: autopay:autopay-payment-api
   name: Autopay Payment API
   description: External payment registration and parking connection
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Payment
   properties:
   - type: OpenAPI
     url: openapi/autopay-payment-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-payment-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/payment_api/
 - aid: autopay:autopay-permit-api
   name: Autopay Permit API
   description: Tenant permit allocations and end-user permit lifecycle
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Permit
   properties:
   - type: OpenAPI
     url: openapi/autopay-permit-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-permit-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/permit_tenant_api/
 - aid: autopay:autopay-statistics-api
   name: Autopay Statistics API
   description: Parking statistics export
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Statistics
   properties:
   - type: OpenAPI
     url: openapi/autopay-statistics-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-statistics-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/statistics_api/
 - aid: autopay:autopay-status-api
   name: Autopay Status API
   description: Zone availability and detailed parking session status
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Status
   properties:
   - type: OpenAPI
     url: openapi/autopay-status-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-status-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/status_api/
 - aid: autopay:autopay-vehicle-api
   name: Autopay Vehicle API
   description: Vehicle permit and session lookups
   humanURL: https://developer.autopay.io
+  baseURL: https://api.autopay.io
   tags:
   - Vehicle
   properties:
   - type: OpenAPI
     url: openapi/autopay-vehicle-api-openapi.yml
+  - type: Overlay
+    url: overlays/autopay-vehicle-overlay.yaml
+  - type: Documentation
+    url: https://developer.autopay.io/vehicle_api/
 common:
   - type: CapabilityMap
     url: capabilities/autopay-capability-edges.yml
@@ -281,13 +340,65 @@ common:
   - type: Portal
     url: https://developer.autopay.io
   - type: Website
-    url: https://autopay.no
+    url: https://autopay.io
   - type: Documentation
     url: https://developer.autopay.io
   - type: Authentication
-    url: https://developer.autopay.io
+    url: https://developer.autopay.io/authentication/
   - type: TermsOfService
+    url: https://developer.autopay.io/usage_agreement/
+  - type: Company
+    url: https://solutions.autopay.io
+  - type: APIReference
     url: https://developer.autopay.io
+  - type: GettingStarted
+    url: https://developer.autopay.io/authentication/
+  - type: Support
+    url: https://help.autopay.io/kb/en
+  - type: HelpCenter
+    url: https://help.autopay.io/kb/en
+  - type: Blog
+    url: https://solutions.autopay.io/latest-news
+  - type: PrivacyPolicy
+    url: https://solutions.autopay.io/privacy-policy
+  - type: Deprecation
+    url: https://developer.autopay.io/api_deprecation/
+  - type: Lifecycle
+    url: lifecycle/autopay-lifecycle.yml
+  - type: Security
+    url: security/autopay-vulnerability-disclosure.yml
+  - type: SecurityTxt
+    url: well-known/autopay-security.txt
+  - type: TrustCenter
+    url: https://solutions.autopay.io/about-us/iso-certifications
+  - type: Compliance
+    url: security/autopay-trust-center.yml
+  - type: Conformance
+    url: conformance/autopay-conformance.yml
+  - type: WellKnown
+    url: well-known/autopay-well-known.yml
+  - type: Conventions
+    url: conventions/autopay-conventions.yml
+  - type: ErrorCatalog
+    url: errors/autopay-problem-types.yml
+  - type: Webhooks
+    url: asyncapi/autopay-webhooks.yml
+  - type: DataModel
+    url: data-model/autopay-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/autopay-llms.txt
+  - type: Packages
+    url: packages/autopay-packages.yml
+  - type: X-MCPServerCandidate
+    url: mcp/autopay-mcp.yml
+  - type: Plans
+    url: plans/autopay-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/autopay-rate-limits.yml
+  - type: FinOps
+    url: finops/autopay-finops.yml
   - type: Features
     data:
       - name: OAuth Authentication
@@ -344,8 +455,11 @@ common:
         description: >-
           Connect corporate fleet management software with Autopay for
           parking cost tracking and vehicle permit assignment.
-  - type: LlmsText
-    url: https://autopay.io/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-06'
+  status: enriched
+  artifacts_added: 29
+  pass: local-v3

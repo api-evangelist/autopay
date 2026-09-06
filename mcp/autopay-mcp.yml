@@ -1,0 +1,69 @@
+generated: '2026-09-06'
+method: derived
+status: candidate
+source: openapi/*.yml + https://developer.autopay.io/
+description: >-
+  Autopay ships NO MCP server. This is a DERIVED CANDIDATE tool surface — what an MCP server
+  over the documented Autopay REST API would expose — recorded so the capability gap is
+  legible. It is not an endpoint anyone can call, and no endpoint URL is invented here.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: oauth
+  verified: searched
+search:
+  checked: '2026-09-06'
+  queries:
+  - {source: developer.autopay.io full-text (17 pages), term: 'MCP / Model Context Protocol', result: no match}
+  - {source: 'npm registry search "autopay"', result: 'no first-party package; the @autopayprotocol/mcp hit belongs to an unrelated crypto subscription protocol'}
+  - {source: 'https://api.autopay.io/mcp and /sse', result: '401 authentication_error — the API host answers 401 on every path, so this is not evidence of an MCP surface'}
+  - {source: '/.well-known/* on 6 hosts', result: 'no ai-plugin.json, no agent card, no api-catalog'}
+  conclusion: No hosted or local MCP server is published by Autopay.
+authentication_if_built:
+  flow: oauth2 client credentials against https://api-auth.autopay.io/oauth/token with audience https://api.autopay.io
+  note: >-
+    Credentials are bound to one operator, so an MCP server would need one credential set per
+    operator tenancy — it cannot be a single multi-tenant server without per-call credential
+    selection.
+candidate_tools:
+- {name: list_invoices, rest: 'GET /accounting/v1/invoices', consequence: read}
+- {name: list_permit_definitions, rest: 'GET /booking/v3/permit_definitions', consequence: read}
+- {name: check_booking_availability, rest: 'GET /booking/v3/availability', consequence: read}
+- {name: get_booking_status, rest: 'GET /booking/v3/{id}/status', consequence: read, note: 'Rate limited to one call per 900s per booking.'}
+- {name: create_booking, rest: 'POST /booking/v3/', consequence: write, reversible: true}
+- {name: update_booking, rest: 'PUT /booking/v3/{id}', consequence: write}
+- {name: delete_booking, rest: 'DELETE /booking/v3/{id}', consequence: write, note: 'Only while the booking is NOT_USED.'}
+- {name: join_customer_club, rest: 'POST /customer_club/v2/join', consequence: write, pii: true}
+- {name: get_customer_club_status, rest: 'GET /customer_club/v2/status/{registrationId}', consequence: read, pii: true}
+- {name: leave_customer_club, rest: 'DELETE /customer_club/v2/leave/{registration_id}', consequence: write}
+- {name: list_fleet_vehicles, rest: 'GET /fleet/v2/vehicles', consequence: read}
+- {name: add_fleet_vehicle, rest: 'POST /fleet/v2/vehicles', consequence: write}
+- {name: remove_fleet_vehicle, rest: 'DELETE /fleet/v2/vehicles', consequence: write}
+- {name: detach_fleet_vehicle, rest: 'POST /fleet/v2/vehicles/detach', consequence: write}
+- {name: list_fleet_services, rest: 'GET /fleet/v2/services', consequence: read}
+- {name: list_fleet_services_by_updated_at, rest: 'GET /fleet/v2/services/by_updated_at', consequence: read}
+- {name: list_vehicle_services, rest: 'GET /fleet/v2/vehicles/services', consequence: read}
+- {name: disable_fleet_payments, rest: 'POST /fleet/v2/vehicles/disable_payments', consequence: write}
+- {name: change_parking_product, rest: 'PUT /parking/product/{parkingSessionId}', consequence: physical, note: 'Changes what a driver is charged for a live session.'}
+- {name: connect_parking_payment, rest: 'POST /payment/v1/connect_parking', consequence: safety-critical, reversible: false, note: 'Irreversible commit — claims billing responsibility for a live session. Human confirmation recommended.'}
+- {name: manual_stop_parking, rest: 'POST /payment/v1/manual_stop', consequence: safety-critical, note: 'Closes a live session and triggers a real charge. Not an undo.'}
+- {name: list_tenant_permit_allocations, rest: 'GET /permit/v3/tenant_permit_allocations', consequence: read}
+- {name: list_tenant_issued_permits, rest: 'GET /permit/v3/tenant_issued_permits', consequence: read}
+- {name: issue_end_user_permit, rest: 'POST /permit/v3/end_user_permit', consequence: write, reversible: true}
+- {name: update_end_user_permit, rest: 'PUT /permit/v3/end_user_permit/{permit_id}', consequence: write}
+- {name: revoke_end_user_permit, rest: 'DELETE /permit/v3/end_user_permit/{permit_id}', consequence: write}
+- {name: export_parking_statistics, rest: 'GET /statistics/v1/parking', consequence: read}
+- {name: get_zone_status, rest: 'GET /status/v1/zone/{zone_code}', consequence: read}
+- {name: get_zone_details, rest: 'GET /status/v1/zone_details/{zone_code}', consequence: read, pii: true}
+- {name: lookup_vehicle_permit, rest: 'GET /vehicle/v1/permit', consequence: read, pii: true}
+candidate_tool_count: 30
+not_covered_by_a_local_spec:
+  note: >-
+    Four documented APIs have no OpenAPI in this repo, so no candidate tools were derived for
+    them — Permit Landlord (12 operations), Permit Operator, Price, and Tap & Park.
+  apis: [Permit Landlord API, Permit Operator API, Price API, Tap & Park API]
+warning: >-
+  status is `candidate`. Autopay has not published an MCP server; do not read this file as
+  evidence that one exists, and do not point an MCP client at any URL derived from it.

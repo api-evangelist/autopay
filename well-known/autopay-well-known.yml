@@ -1,0 +1,178 @@
+generated: '2026-09-06'
+method: probed
+source: live GET probes of /.well-known/* on every host this record knows
+description: >-
+  Probe of the RFC 8615 well-known namespace on every Autopay host in this record — the
+  registrable domain and www, the API host, the authorization host named by the
+  authentication docs, the developer portal, and the corporate site. Two documents are
+  really served: an RFC 9116 security.txt on autopay.io and an OpenID Connect discovery
+  document on api-auth.autopay.io. Everything else is a recorded absence.
+notes:
+  - >-
+    autopay.io (and www) is a single-page app whose catch-all answers HTTP 200 with the
+    same 1,913-byte HTML shell for every unknown path, including every /.well-known/*
+    path. Those 200s are recorded below as soft-404 misses, not as documents. Only
+    security.txt returns real text/plain content on that host.
+  - >-
+    api.autopay.io answers 401 {"error_id":"authentication_error"} on every path,
+    including /.well-known/* — the API host requires a bearer token before routing.
+  - >-
+    api-auth.autopay.io is the Auth0-hosted authorization server named by
+    https://developer.autopay.io/authentication/. Its openid-configuration is anonymous
+    and real; every other well-known path on that host returns 403.
+  - >-
+    autopay.no does not serve HTTPS and its HTTP root is a registrar parking page
+    ("autopay.no is parked"), so it was not probed for well-known documents.
+hosts:
+- host: autopay.io
+  role: registrable domain / end-user web app
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    file: autopay-security.txt
+    verdict: served
+  - path: /.well-known/openid-configuration
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+  - path: /.well-known/api-catalog
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+  - path: /.well-known/agent-card.json
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+  - path: /.well-known/agent.json
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    verdict: soft-404 (SPA HTML shell, 1913 bytes)
+- host: www.autopay.io
+  role: www alias of the registrable domain
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    file: autopay-security.txt
+    verdict: served (identical body to autopay.io)
+  - path: /.well-known/openid-configuration
+    status: 200
+    verdict: soft-404 (SPA HTML shell)
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    verdict: soft-404 (SPA HTML shell)
+  - path: /.well-known/api-catalog
+    status: 200
+    verdict: soft-404 (SPA HTML shell)
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    verdict: soft-404 (SPA HTML shell)
+  - path: /.well-known/agent-card.json
+    status: 200
+    verdict: soft-404 (SPA HTML shell)
+  - path: /.well-known/agent.json
+    status: 200
+    verdict: soft-404 (SPA HTML shell)
+- host: api-auth.autopay.io
+  role: OAuth 2.0 authorization server (token endpoint named in the authentication docs)
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: autopay-openid-configuration.json
+    verdict: served
+  - path: /.well-known/security.txt
+    status: 403
+    verdict: absent
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+    verdict: absent
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+    verdict: absent
+  - path: /.well-known/api-catalog
+    status: 403
+    verdict: absent
+  - path: /.well-known/agent-card.json
+    status: 403
+    verdict: absent
+  - path: /.well-known/agent.json
+    status: 403
+    verdict: absent
+- host: api.autopay.io
+  role: API host (servers[] of every OpenAPI in this repo)
+  documents:
+  - path: /.well-known/security.txt
+    status: 401
+    verdict: absent (host requires a bearer token on every path)
+  - path: /.well-known/openid-configuration
+    status: 401
+    verdict: absent
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+    verdict: absent
+  - path: /.well-known/oauth-protected-resource
+    status: 401
+    verdict: absent
+  - path: /.well-known/api-catalog
+    status: 401
+    verdict: absent
+  - path: /.well-known/agent-card.json
+    status: 401
+    verdict: absent
+  - path: /.well-known/agent.json
+    status: 401
+    verdict: absent
+- host: developer.autopay.io
+  role: developer portal / API reference
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    verdict: absent
+  - path: /.well-known/openid-configuration
+    status: 404
+    verdict: absent
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    verdict: absent
+  - path: /.well-known/api-catalog
+    status: 404
+    verdict: absent
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    verdict: absent
+  - path: /.well-known/agent-card.json
+    status: 404
+    verdict: absent
+  - path: /.well-known/agent.json
+    status: 404
+    verdict: absent
+- host: solutions.autopay.io
+  role: corporate site (Autopay Technologies AS)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    verdict: absent
+  - path: /.well-known/api-catalog
+    status: 404
+    verdict: absent
+  - path: /.well-known/agent-card.json
+    status: 404
+    verdict: absent
+summary:
+  hosts_probed: 6
+  documents_served: 2
+  security_txt: true
+  openid_configuration: true
+  api_catalog: false
+  agent_card: false
+  ai_plugin: false

@@ -3,131 +3,94 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Autopay
 providerId: autopay
+generated: '2026-09-06'
+method: searched
+source: https://developer.autopay.io/booking_api/ and https://developer.autopay.io/status_api/
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-09-06'
 tags:
   - Parking
-  - Parking Payments
-  - Fleet Management
-  - Permits
-  - Parking Operators
-  - Norway
   - Rate Limiting
   - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Autopay API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+description: >-
+  Autopay publishes no account-level quota, no per-minute request ceiling and no rate-limit
+  response headers. It documents exactly one numeric limit — a per-booking query limit on the
+  Booking status endpoint — plus one unquantified "too many queries" condition on the Status
+  API, and one behavioural rule about token minting. Exhaustion is signalled as an error_id in
+  an ordinary error body, not as a 429 with headers.
+limit_count: 1
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After response header is documented anywhere in the
+    reference. An agent cannot read its remaining budget from the wire; it can only detect
+    exhaustion after the fact from the error_id.
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  throttled: null
+  note: >-
+    No 429 appears anywhere in the Autopay reference. query_limit_error is returned inside the
+    normal {error_id, message} envelope; the HTTP status carrying it is not documented.
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Autopay Accounting API
-      - Autopay Booking API
-      - Autopay Parking API
-      - Autopay Payment API
-      - Autopay Permit Tenant API
-      - Autopay Fleet API
-      - Autopay Statistics API
-      - Autopay Vehicle API
-      - Autopay Tap and Park API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Autopay Accounting API
-      - Autopay Booking API
-      - Autopay Parking API
-      - Autopay Payment API
-      - Autopay Permit Tenant API
-      - Autopay Fleet API
-      - Autopay Statistics API
-      - Autopay Vehicle API
-      - Autopay Tap and Park API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Autopay Accounting API
-      - Autopay Booking API
-      - Autopay Parking API
-      - Autopay Payment API
-      - Autopay Permit Tenant API
-      - Autopay Fleet API
-      - Autopay Statistics API
-      - Autopay Vehicle API
-      - Autopay Tap and Park API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Autopay Accounting API
-      - Autopay Booking API
-      - Autopay Parking API
-      - Autopay Payment API
-      - Autopay Permit Tenant API
-      - Autopay Fleet API
-      - Autopay Statistics API
-      - Autopay Vehicle API
-      - Autopay Tap and Park API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Autopay Accounting API
-      - Autopay Booking API
-      - Autopay Parking API
-      - Autopay Payment API
-      - Autopay Permit Tenant API
-      - Autopay Fleet API
-      - Autopay Statistics API
-      - Autopay Vehicle API
-      - Autopay Tap and Park API
+  - name: Booking status query limit
+    scope: per client, per booking
+    operation: GET /booking/v3/{id}/status
+    limit: 1
+    window: 900 seconds
+    metric: queries
+    burst: null
+    error_id: query_limit_error
+    quote: 'One status query is allowed per 900 seconds per client per booking'
+    prose_quote: 'There is a 15-minute query rate limit per booking on the GET Get a status of a booking endpoint.'
+    source: https://developer.autopay.io/booking_api/
+    agent_impact: >-
+      A polling agent cannot watch a booking more often than once every 15 minutes. There is no
+      event or webhook for booking status, so 15 minutes is the floor on booking-state latency.
+undocumented_limits:
+  - name: Status API query limit
+    operation: GET /status/v1/zone/{zone_code}, GET /status/v1/zone_details/{zone_code}
+    error_id: query_limit_error
+    documented_explanation: 'Too many queries'
+    limit: not published
+    source: https://developer.autopay.io/status_api/
+    note: The error id exists and is documented; the threshold behind it is not.
+  - name: Concurrent booking limit
+    error_id: availability_limit_error
+    documented_explanation: 'Concurrent booking limit exceeded for that time period'
+    limit: not published — set per permit definition; read it from GET /booking/v3/permit_definitions ("their joint access limit") and GET /booking/v3/availability
+    source: https://developer.autopay.io/booking_api/
+    note: A capacity limit rather than a request-rate limit, but it is the one quota an agent can query before it acts.
+  - name: Concurrent parking limit
+    error_id: parking_validation_concurrent_limit_exceeded
+    documented_explanation: 'Concurrent parking limit is reached'
+    source: https://developer.autopay.io/tapnpark_api/
+  - name: Fleet services date range ceiling
+    error_id: vehicle_services_invalid_date_range
+    documented_explanation: 'The specified period exceeds the maximum limit'
+    limit: not published
+    source: https://developer.autopay.io/fleet-api/
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Token minting
+    description: >-
+      "Generating excessive access tokens within the expiration time (i.e. requesting a new one
+      for each request) may lead to termination of API access." This is the one throttling rule
+      Autopay enforces contractually rather than technically — the penalty is loss of access,
+      not a 429. Cache the token for its full expires_in (10-24 hours).
+    source: https://developer.autopay.io/authentication/
+  - name: Export query pacing
+    description: >-
+      'Data is not propagated to the Accounting API in real-time; therefore, all the queries
+      should be delayed as well and not made in real-time.' Walk the export endpoints by time
+      window, carrying the previous request's `to` value forward as the next `from`.
+    source: https://developer.autopay.io/accounting/
+note: >-
+  This file previously carried a five-row Free/Professional/Enterprise limit table (10/100/1000
+  rpm, 1k/100k monthly quotas) and a full X-RateLimit-* header set, written by the 2026-05-04
+  bulk sweep and never sourced from Autopay. None of it is published by Autopay and it has been
+  removed.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

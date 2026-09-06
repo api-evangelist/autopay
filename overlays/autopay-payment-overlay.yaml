@@ -1,0 +1,63 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Autopay Accounting Payment API
+  version: 1.0.0
+extends: ../openapi/autopay-payment-api-openapi.yml
+x-generated: '2026-09-06'
+x-method: generated
+x-source: openapi/autopay-payment-api-openapi.yml + https://developer.autopay.io/payment_api/
+x-note: 'Non-destructive record of what API Evangelist added on top of the harvested contract: stable
+  operationIds (Autopay declares none), the documented 4xx/5xx responses (the contract carries only 200),
+  and the cross-cutting semantics published as prose. The underlying OpenAPI is never mutated.'
+actions:
+- target: $.info
+  description: Link the operation surface back to the provider reference page it was read from.
+  update:
+    x-api-evangelist-source: https://developer.autopay.io/payment_api/
+    x-api-evangelist-note: Autopay publishes no OpenAPI. This document is API Evangelist’s reading of
+      the HTML reference at the URL above.
+- target: $
+  description: Declare the runtime semantics Autopay documents in prose but does not express in the contract.
+  update:
+    x-error-envelope:
+      shape: '{ "error_id": string, "message": string, "description"?: string }'
+      rfc9457: false
+      catalog: errors/autopay-problem-types.yml
+    x-idempotency:
+      coverage: none
+      note: Autopay publishes no idempotency key on any write operation.
+    x-rate-limit-headers: []
+    x-conventions: conventions/autopay-conventions.yml
+    x-lifecycle: lifecycle/autopay-lifecycle.yml
+- target: $.paths['/payment/v1/connect_parking'].post
+  description: Add a stable operationId and the reference URL for POST /payment/v1/connect_parking.
+  update:
+    operationId: post_v1_connect_parking
+    x-docs: https://developer.autopay.io/payment_api/
+- target: $.paths['/payment/v1/connect_parking'].post.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.
+- target: $.paths['/payment/v1/manual_stop'].post
+  description: Add a stable operationId and the reference URL for POST /payment/v1/manual_stop.
+  update:
+    operationId: post_v1_manual_stop
+    x-docs: https://developer.autopay.io/payment_api/
+- target: $.paths['/payment/v1/manual_stop'].post.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.

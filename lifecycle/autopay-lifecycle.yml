@@ -1,0 +1,109 @@
+generated: '2026-09-06'
+method: searched
+source: https://developer.autopay.io/api_deprecation/ and https://developer.autopay.io/usage_agreement/
+description: >-
+  Autopay publishes a contractual deprecation policy in its API Usage Agreement and maintains
+  a dated deprecation page on the developer portal. It publishes no changelog, no status page
+  and no SLA.
+versioning:
+  style: path-segment (/<product>/v<major>/)
+  policy: >-
+    New fields may be introduced to non-beta APIs without prior notice. APIs marked as beta
+    may change without prior notice. Breaking changes to non-beta APIs are published at least
+    six (6) months prior to release.
+  source: https://developer.autopay.io/usage_agreement/
+deprecation_policy:
+  published: true
+  url: https://developer.autopay.io/api_deprecation/
+  notice_period: 6 months
+  notice_period_source: >-
+    "As per Autopay's API Usage Agreement all breaking changes are published 6 months prior to
+    release." (developer.autopay.io/api_deprecation/); section 4 of the Usage Agreement states
+    the same.
+  notification_channels:
+  - The API Deprecation page on developer.autopay.io
+  - Email to every integrator's registered Technical Contact Person
+  - Notification to all Autopay Operators
+  technical_contact_obligation: >-
+    Integrators must keep Autopay updated on their Technical Contact Person by mailing
+    partner-support@autopay.io with the subject "API Technical Contact Person" and the
+    affected client_id(s). An agent-run integration with no maintained human contact will not
+    receive breaking-change notice.
+  rfc8594_headers:
+    sunset: not documented
+    deprecation: not documented
+    note: >-
+      Deprecation is announced out-of-band on a web page and by email. No Sunset or
+      Deprecation response header is documented, so a client cannot detect a pending
+      retirement from the wire.
+  cost_allocation: >-
+    Section 2.1 of the Usage Agreement: "The Integrator must bear the total cost of any
+    changes to their systems that result from changes in Autopay APIs."
+deprecations:
+- published: '2026-05-05'
+  effective: '2026-11-05'
+  api: Booking API
+  change: Booking API version 1 and version 2 are deprecated. Migrate to version 3 using the migration guide on the Booking API page.
+  breaking: true
+- published: '2026-05-05'
+  effective: '2026-11-05'
+  api: Fleet API
+  change: >-
+    Fleet API version 1 is deprecated. Version 2 moves every endpoint under /fleet/v2/ (previously
+    just /fleet/) and renames the license plate request/response parameter from `plate` to
+    `license_plate_number`.
+  breaking: true
+- published: '2026-05-05'
+  effective: '2026-11-05'
+  api: Permit Landlord API (previously known as E-Commerce API)
+  change: >-
+    The old camelCase endpoints are deprecated in favour of the snake_case equivalents. Affected
+    operations - GET permit definitions, PUT create a permit allocation, POST update permit
+    allocation, DELETE permit allocation.
+  breaking: true
+- published: '2026-05-05'
+  effective: '2026-11-05'
+  api: Statistics API
+  change: The legacy field parkings.payments.id is removed; it is replaced by parkings.payments.payment_id.
+  breaking: true
+- published: '2026-02-19'
+  effective: '2026-08-19'
+  api: Accounting API
+  change: >-
+    Receipts and entry/exit images are protected by JWTs like the API itself. The replacement
+    fields receipt_url_with_auth and image_url_with_auth are already available; the unauthenticated
+    receipt_url / image_url fields now return the literal string "Use image_url_with_auth instead!".
+  breaking: true
+  status: in effect
+deprecated_operations_in_spec: []
+deprecated_operations_note: >-
+  No operation in openapi/ carries `deprecated: true`. The deprecations above are announced on
+  the portal against versions that were never captured in this repo (booking v1/v2, fleet v1,
+  the camelCase permit-landlord paths), so there is nothing in the local specs to flag.
+status_page:
+  published: false
+  probed:
+  - url: https://status.autopay.io
+    status: NXDOMAIN
+    checked: '2026-09-06'
+  note: >-
+    No status or uptime page is linked from developer.autopay.io, autopay.io or
+    solutions.autopay.io, and status.autopay.io does not resolve. Availability is addressed
+    only contractually - "Autopay will use commercially reasonable efforts to maintain the
+    availability and functionality of the API" (Usage Agreement 2.2).
+sla:
+  published: false
+  note: The Usage Agreement disclaims liability for downtime and states no uptime target, credit or response-time commitment.
+changelog:
+  published: false
+  note: >-
+    The API Deprecation page is a breaking-change log, not a changelog - it lists only
+    removals, and only ones still inside their notice window. Per-API "Migration from V2 to V3"
+    sections on the Booking and Fleet pages carry the field-level diffs. Non-breaking additions
+    are explicitly shipped without notice, so there is no record of them anywhere public.
+support:
+  technical: partner-support@autopay.io
+  sales: sales@autopay.io
+  security: security@autopay.io
+  help_center: https://help.autopay.io/kb/en
+governing_law: Norway

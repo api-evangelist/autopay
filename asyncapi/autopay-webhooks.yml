@@ -1,0 +1,144 @@
+generated: '2026-09-06'
+method: searched
+source: https://developer.autopay.io/parking_api/, /payment_api/, /fleet-api/, /customer_club_api/
+type: Webhooks
+asyncapi_published: false
+description: >-
+  Autopay ships a real outbound event surface — four documented HTTP callbacks that Autopay
+  POSTs to an endpoint the integrator hosts — but publishes no AsyncAPI, no event catalog
+  endpoint and no subscription API. Every webhook is configured out-of-band by an Autopay
+  representative during onboarding; there is no self-serve registration. The catalog below is
+  transcribed from the provider's own reference pages.
+subscription_model:
+  self_serve: false
+  mechanism: >-
+    The integrator supplies the callback URL, the authentication credential Autopay should
+    present, and the facility/zone/landlord scoping to their Autopay representative at
+    onboarding. Autopay configures the delivery.
+  transport: HTTPS POST, application/json
+  https_required: true
+authentication_to_subscriber:
+  note: Autopay authenticates ITSELF to the integrator's endpoint. Supported methods differ per surface.
+  methods:
+  - surface: Parking API entry webhook
+    methods: [basic, bearer]
+  - surface: Fleet API service webhook
+    methods: [bearer]
+  - surface: Payment API callbacks
+    methods:
+    - basic
+    - bearer
+    - 'api-key: presented in the X-API-Key header'
+    - 'oauth2: Autopay is given a client id, secret and token URL, and reuses access tokens for as long as they are valid'
+  credential_handling: >-
+    Payment API: "All credentials you provide are encrypted and stored securely."
+delivery:
+  guarantee: at-least-once
+  duplicate_delivery: >-
+    Explicitly possible. The Payment API tells integrators to make their endpoint safe for
+    duplicate deliveries, "typically by treating the parking_id as an idempotency key".
+  signature_verification: none documented (no HMAC signature header)
+  ordering: not documented
+  retry:
+  - surface: Payment API callbacks
+    success_criteria: A 2xx — or a 404 — response. A 404 stops retries.
+    policy: >-
+      Exponential backoff starting at 1 second and doubling (1s, 2s, 4s, 8s, ...) to a maximum
+      interval of 1 hour, then once per hour until one week has passed, after which the
+      callback is abandoned.
+    max_age: 1 week
+  - surface: Parking API entry webhook
+    success_criteria: A 2xx response.
+    policy: Retried up to 50 times if no 2xx is received.
+    max_attempts: 50
+  - surface: Fleet API service webhook
+    policy: not documented
+events:
+- name: parking.vehicle_entered_zone
+  api: Parking API
+  direction: outbound
+  trigger: A vehicle enters a zone in the integrator's facility.
+  docs: https://developer.autopay.io/parking_api/
+  payload_fields:
+  - {name: event_id, type: string, description: Unique id for the entry event. Updates to the same event (e.g. a corrected licence plate) reuse this id.}
+  - {name: parking_id, type: string, description: Unique id for the parking; stable while the vehicle remains in the zone.}
+  - {name: parking_session_id, type: string, description: 'Handle used to change the product for this session via PUT /parking/product/{parkingSessionId}.'}
+  - {name: time_in_utc, type: date-time, description: Entry time in UTC (ISO 8601).}
+  - {name: operator_id, type: string}
+  - {name: landlord.landlord_id, type: string}
+  - {name: landlord.name, type: string}
+  - {name: zone.code, type: string}
+  - {name: zone.name, type: string}
+  - {name: facility.code, type: string}
+  - {name: facility.name, type: string}
+  - {name: facility.time_zone, type: string, description: IANA tz name, e.g. "Europe/Oslo".}
+  - {name: plate.plate_number, type: string}
+  - {name: plate.country_alpha2_code, type: string, description: ISO 3166-1 alpha-2 plate country code.}
+  - {name: plate.subdivision, type: string, required: false}
+  drives: The autostart path of the Payment API — a payment provider listening for entry events can call POST /payment/v1/connect_parking automatically for a known vehicle.
+  correction_semantics: An updated event is redelivered with the SAME event_id, so consumers must upsert on event_id rather than append.
+- name: payment.parking_ended
+  api: Payment API
+  direction: outbound
+  trigger: A parking session ends successfully — a normal exit, or the completion of a manual stop.
+  docs: https://developer.autopay.io/payment_api/
+  endpoint_owner: Integrator-hosted "success callback URL" supplied at onboarding.
+  payload_fields:
+  - {name: parking_id, type: string}
+  - {name: reference, type: string, description: The integrator's own identifier echoed back from connect_parking.}
+  - {name: end_time, type: date-time}
+  - {name: cost.currency, type: string, description: Local currency of the country the parking took place in.}
+  - {name: cost.vat_percent, type: decimal}
+  - {name: cost.net_amount, type: decimal}
+  - {name: cost.vat_amount, type: decimal}
+  - {name: cost.gross_amount, type: decimal}
+  consumer_action: Charge the customer with the amount Autopay calculated. The integrator never calculates the parking fee.
+- name: payment.parking_cancelled
+  api: Payment API
+  direction: outbound
+  trigger: The session went into an error state in Autopay and must not be charged.
+  docs: https://developer.autopay.io/payment_api/
+  endpoint_owner: Integrator-hosted "cancel callback URL" supplied at onboarding.
+  consumer_action: Do not charge; release any authorisation held against the customer.
+- name: fleet.service_started
+  api: Fleet API
+  direction: outbound
+  trigger: >-
+    A fleet vehicle parks, passes through a toll road, or has been parked longer than a
+    preconfigured period (a separate periodical-notification webhook, which may use its own
+    URL and access token).
+  docs: https://developer.autopay.io/fleet-api/
+  requires: A fleet company profile at the Enterprise level.
+  payload_fields:
+  - {name: id, type: string, description: Unique id of the service.}
+  - {name: vehicle.license_plate_number, type: string}
+  - {name: vehicle.country_code, type: string, description: ISO 3166-1 alpha-2.}
+  - {name: vehicle.subdivision, type: string, required: false}
+  - {name: vehicle.created_at, type: date-time}
+  - {name: facility.code, type: string}
+  - {name: facility.name, type: string}
+  - {name: zone.code, type: string}
+  - {name: zone.name, type: string}
+  - {name: start_time, type: date-time, description: Start time of the service in UTC.}
+  - {name: operator_id, type: string}
+  - {name: type, type: string, enum: [PARKING, TOLL_ROAD]}
+  - {name: notification_period, type: string, required: false, description: Seconds between the entry event and this notification; present only on the periodical notification webhook.}
+  - {name: service_data, type: map, required: false}
+inbound_lookups:
+  note: >-
+    One surface inverts the direction — Autopay calls the integrator to ASK a question rather
+    than to notify. It is a synchronous lookup, not an event.
+  surfaces:
+  - name: customer_club.membership_lookup
+    api: Customer Club API — "External (Webhook)" integration type
+    description: >-
+      Autopay requests a predefined URL with an ID (a licence plate or a loyalty membership id)
+      and expects a response saying whether the ID is a valid membership.
+    docs: https://developer.autopay.io/customer_club_api/
+gaps:
+  asyncapi_spec: >-
+    None published. This catalog is transcribed from HTML reference pages; it is not an
+    AsyncAPI document and no AsyncAPI document was authored for Autopay, because authoring one
+    would assert a channel contract the provider has not published.
+  event_replay: No endpoint to replay or list missed events is documented.
+  signature: No payload signing scheme is documented; authenticity rests entirely on the credential Autopay presents to the integrator's endpoint.

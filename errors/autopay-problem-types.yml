@@ -1,0 +1,285 @@
+generated: '2026-09-06'
+method: searched
+source: https://developer.autopay.io/ — the "Error handling" section published on every API reference page
+format: custom-json
+rfc9457: false
+description: >-
+  Autopay publishes a per-API error reference on every page of developer.autopay.io. Errors
+  are returned as a flat JSON object keyed on a stable string `error_id`, not as RFC 9457
+  problem+json, and the documented HTTP status is carried separately. Only the Payment API
+  page states an HTTP status per error id; the other pages document the id and its
+  explanation without a status. Every entry below is transcribed verbatim from the
+  provider's own error table — nothing here is inferred.
+envelope:
+  media_type: application/json
+  fields:
+  - name: error_id
+    type: string
+    required: true
+    description: Specific code of error. Stable string identifier; the field agents should branch on.
+  - name: message
+    type: string
+    required: true
+    description: Description of error.
+  - name: description
+    type: string
+    required: false
+    description: Optional value. Additional description of error.
+  example: |-
+    {
+      "error_id": "authentication_error",
+      "message": "No access token present in header!"
+    }
+  note: >-
+    The Authentication service (api-auth.autopay.io) uses a DIFFERENT envelope — the OAuth 2.0
+    shape {"error": "...", "error_description": "..."} per RFC 6749 — not error_id/message.
+    An agent must handle both.
+observed_statuses:
+- status: 200
+  note: Documented success for every operation in the reference.
+- status: 400
+  note: Documented on the Payment API for missing_property, message_not_readable, method_not_supported, argument_type_mismatch, server_communication_error, operator_not_found_error and missing_operator_token_error.
+- status: 401
+  note: Returned by api.autopay.io on any request with no access token, and by the Auth0 token endpoint for invalid client credentials. Observed live 2026-09-06 on GET https://api.autopay.io/ -> {"error_id":"authentication_error","message":"No access token present in header!"}.
+- status: 403
+  note: Documented on the Payment API for the `forbidden` error id.
+- status: 500
+  note: Documented on the Payment API for `internal_server_error`.
+shared_error_ids:
+- id: forbidden
+  title: Unauthorized
+  http_status: 403
+  scope: all APIs
+  remediation: The token is missing, expired or lacks the scope for this API. Mint a new token via POST https://api-auth.autopay.io/oauth/token with the client credentials issued for this operator.
+- id: internal_server_error
+  title: Internal server error
+  http_status: 500
+  scope: all APIs
+  remediation: Retry with exponential backoff; contact partner-support@autopay.io if it persists.
+- id: message_not_readable
+  title: A problem with the request body
+  http_status: 400
+  scope: most APIs
+  remediation: Send a well-formed JSON body with Content-Type application/json.
+- id: method_not_supported
+  title: Used REST method not supported
+  http_status: 400
+  scope: most APIs
+- id: missing_property
+  title: A required property in request is missing
+  http_status: 400
+  scope: accounting, customer club, payment, price, statistics, status, vehicle
+- id: argument_type_mismatch
+  title: A request argument is of incorrect type
+  http_status: 400
+  scope: accounting, booking, customer club, payment, statistics, status, vehicle
+- id: operator_not_found_error
+  title: Operator not found
+  scope: accounting, customer club, statistics, status, vehicle, payment
+- id: missing_operator_token_error
+  title: Your access token is missing an operator context — typically a credentials configuration issue.
+  http_status: 400
+  scope: booking, payment, vehicle
+- id: server_communication_error
+  title: Error communication with server
+  http_status: 400
+  scope: booking, payment, price
+  note: On the Payment API this is also the id returned when a parking session is already linked to an external payment provider ("Payment provider already registered").
+- id: authentication_error
+  title: There is a problem with authentication (e.g. "Authorization required")
+  http_status: 401
+  scope: customer club; also the id returned by api.autopay.io for any unauthenticated request
+- id: cursor_decoding_error
+  title: Failed to decode cursor / Invalid cursor.
+  scope: fleet, statistics
+  remediation: Do not construct cursors. Replay the opaque `cursor` value returned by the previous page verbatim.
+apis:
+- api: Accounting API
+  docs: https://developer.autopay.io/accounting/
+  errors:
+  - id: accounting_missing_scope_error
+    title: Missing scope for specified status
+  - id: accounting_unexpected_error
+    title: Unexpected authorization error
+  - id: accounting_service_invalid_to_date_error
+    title: to_date should not be in the future
+  - id: accounting_service_invalid_date_error
+    title: Can search either by 'from' and 'to' OR 'updated_at_from' and 'updated_at_to'
+- api: Booking API
+  docs: https://developer.autopay.io/booking_api/
+  errors:
+  - id: invalid_type_error
+    title: 'Type must be one of the following: ENTRY, FIXED'
+  - id: invalid_fixed_type_error
+    title: With type FIXED valid_from and valid_to must not be null and duration must be null
+  - id: invalid_entry_type_error
+    title: With type ENTRY valid_from must be null and valid_to or duration must not be null
+  - id: invalid_expiration_time_error
+    title: With type FIXED expiration time must be null
+  - id: missing_tenant_id_token_error
+    title: Missing tenant ID in token
+  - id: missing_landlord_id_token_error
+    title: Missing landlord ID in token
+  - id: invalid_permit_definition_error
+    title: Invalid permit definition id {permitDefinitionId}
+  - id: delete_booking_error
+    title: 'Error deleting booking: {bookingId}'
+  - id: delete_booking_error_booking_used
+    title: Booking is already used, cannot delete
+    agent_note: This is the reversal boundary on the booking surface — see conventions/autopay-conventions.yml reversibility.
+  - id: availability_limit_error
+    title: Concurrent booking limit exceeded for that time period
+  - id: query_limit_error
+    title: One status query is allowed per 900 seconds per client per booking
+    agent_note: This is a published rate limit expressed as an error id — see rate-limits/autopay-rate-limits.yml.
+  - id: invalid_tenant_error
+    title: Invalid tenant {tenantId} for requested bookings
+  - id: invalid_booking_error
+    title: 'Invalid Booking: {message}. {message} contains information about why booking validation failed'
+  - id: invalid_booking_update_error
+    title: 'Invalid Booking update: {message}'
+  - id: booking_not_found_error
+    title: 'Did not find booking by id: {bookingId}'
+  - id: get_tenant_permit_definitions_error
+    title: Error getting permit definitions for tenant
+- api: Customer Club API
+  docs: https://developer.autopay.io/customer_club_api/
+  errors:
+  - id: get_status_customer_club_error
+    title: Get customer club status error
+  - id: invalid_join_request_error
+    title: Request was invalid
+  - id: join_customer_club_error
+    title: There is an invalid parameter value in the request (e.g. "Invalid phone number!")
+  - id: leave_customer_club_error
+    title: Error leaving customer club
+  - id: customer_club_not_found_by_id
+    title: Customer club not found
+  - id: customer_club_vehicle_not_found_by_id
+    title: Customer club vehicle not found
+- api: Fleet API
+  docs: https://developer.autopay.io/fleet-api/
+  errors:
+  - id: fleet_vehicle_get_error
+    title: Failed to get vehicles
+  - id: fleet_vehicle_save_error
+    title: Failed to save vehicles
+  - id: fleet_vehicle_delete_error
+    title: Failed to delete vehicle
+  - id: vehicle_services_invalid_date_range
+    title: The specified period exceeds the maximum limit
+- api: Parking API
+  docs: https://developer.autopay.io/parking_api/
+  errors:
+  - id: invalid_operator_id
+    title: The operator id in the authorization is invalid
+  - id: error_validating_facility
+    title: Internal Server Error
+  - id: product_not_found
+    title: Requested product change was not found for the zone
+  - id: facility_or_zone_not_found
+    title: Facility or zone in request is invalid
+  - id: invalid_parking_session
+    title: The parking session is invalid/does not exist
+  - id: invalid_status
+    title: The parking session has invalid status (e.g. it's set to error)
+- api: Payment API
+  docs: https://developer.autopay.io/payment_api/
+  note: The only page in the reference that publishes an HTTP status per error id.
+  errors:
+  - id: forbidden
+    http_status: 403
+    title: Access denied — typically caused by missing or invalid credentials.
+  - id: missing_property
+    http_status: 400
+    title: A required property in the request body is missing.
+  - id: message_not_readable
+    http_status: 400
+    title: The request body could not be parsed.
+  - id: method_not_supported
+    http_status: 400
+    title: The HTTP method used is not supported for this endpoint.
+  - id: argument_type_mismatch
+    http_status: 400
+    title: A request argument is of the wrong type.
+  - id: server_communication_error
+    http_status: 400
+    title: A communication error occurred between Autopay and a downstream system.
+  - id: operator_not_found_error
+    http_status: 400
+    title: The operator referenced by your credentials could not be found.
+  - id: missing_operator_token_error
+    http_status: 400
+    title: Your access token is missing an operator context.
+  - id: internal_server_error
+    http_status: 500
+    title: An unexpected error occurred in Autopay.
+- api: Permit Operator API
+  docs: https://developer.autopay.io/permit_operator_api/
+  errors:
+  - id: internal_server_error
+    title: Internal server error
+  note: The only error id this page documents.
+- api: Price API
+  docs: https://developer.autopay.io/price_api/
+  errors:
+  - id: invalid_accumulative_24h_max_price
+    title: Only 'amount' should be sent with type ACCUMULATIVE_24H_MAX
+  - id: invalid_regular_price
+    title: Only 'amount' and 'period' should be sent with type REGULAR
+  - id: invalid_dynamic_price
+    title: "'amount', 'period' and 'hourly_amounts' should be sent with type DYNAMIC prices. 'restrictions' is optional."
+  - id: invalid_weekdays
+    title: 'Invalid values for weekdays. Allowed values: [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]'
+  - id: invalid_hours
+    title: Invalid values for hours. Allowed values 0-23
+  - id: invalid_period
+    title: Invalid period. Should be a number, followed by a space, followed by [SECOND(S)|MINUTE(S)|HOUR(S)|DAY(S)]
+  - id: invalid_restriction
+    title: 'Invalid restriction type. Allowed values: [WEEKDAYS, FROM_DURATION, UNTIL_DURATION]'
+- api: Statistics API
+  docs: https://developer.autopay.io/statistics_api/
+  errors:
+  - id: search_param_error
+    title: Can search either by 'from' and 'to' OR 'updated_at_from' and 'updated_at_to'.
+  - id: missing_updated_at_error
+    title: Failed to update parking. New entity is missing the updated_at parameter although the existing entity has one.
+  - id: cursor_decoding_error
+    title: Invalid cursor.
+- api: Status API
+  docs: https://developer.autopay.io/status_api/
+  errors:
+  - id: zone_not_found_error
+    title: Requested zone doesn't belong to current landlord.
+  - id: query_limit_error
+    title: Too many queries
+  - id: landlord_not_found_error
+    title: Landlord not found
+- api: Tap & Park API
+  docs: https://developer.autopay.io/tapnpark_api/
+  errors:
+  - id: parking_validation_no_active_parking_found
+    title: No active parking found
+  - id: parking_validation_validation_already_exists
+    title: Validation for vehicle <vehicle reg> already exists
+  - id: parking_validation_concurrent_limit_exceeded
+    title: Concurrent parking limit is reached
+  - id: invalid_vehicle_reg
+    title: Invalid vehicle registration. Can only include letters and numbers
+- api: Vehicle API
+  docs: https://developer.autopay.io/vehicle_api/
+  errors:
+  - id: get_vehicle_overview_error
+    title: Error fetching permit info for specified licence plate
+- api: Authentication (token endpoint)
+  docs: https://developer.autopay.io/authentication/
+  envelope: RFC 6749 OAuth error shape
+  errors:
+  - id: access_denied
+    http_status: 401
+    title: Unauthorized — invalid values in the client_id or client_secret fields.
+summary:
+  error_id_count: 76
+  apis_covered: 14
+  rfc9457: false
+  http_status_documented_for: Payment API only

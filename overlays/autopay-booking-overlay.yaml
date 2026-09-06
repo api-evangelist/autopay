@@ -1,0 +1,127 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Autopay Accounting Booking API
+  version: 1.0.0
+extends: ../openapi/autopay-booking-api-openapi.yml
+x-generated: '2026-09-06'
+x-method: generated
+x-source: openapi/autopay-booking-api-openapi.yml + https://developer.autopay.io/booking_api/
+x-note: 'Non-destructive record of what API Evangelist added on top of the harvested contract: stable
+  operationIds (Autopay declares none), the documented 4xx/5xx responses (the contract carries only 200),
+  and the cross-cutting semantics published as prose. The underlying OpenAPI is never mutated.'
+actions:
+- target: $.info
+  description: Link the operation surface back to the provider reference page it was read from.
+  update:
+    x-api-evangelist-source: https://developer.autopay.io/booking_api/
+    x-api-evangelist-note: Autopay publishes no OpenAPI. This document is API Evangelist’s reading of
+      the HTML reference at the URL above.
+- target: $
+  description: Declare the runtime semantics Autopay documents in prose but does not express in the contract.
+  update:
+    x-error-envelope:
+      shape: '{ "error_id": string, "message": string, "description"?: string }'
+      rfc9457: false
+      catalog: errors/autopay-problem-types.yml
+    x-idempotency:
+      coverage: none
+      note: Autopay publishes no idempotency key on any write operation.
+    x-rate-limit-headers: []
+    x-conventions: conventions/autopay-conventions.yml
+    x-lifecycle: lifecycle/autopay-lifecycle.yml
+- target: $.paths['/booking/v3/permit_definitions'].get
+  description: Add a stable operationId and the reference URL for GET /booking/v3/permit_definitions.
+  update:
+    operationId: get_v3_permit_definitions
+    x-docs: https://developer.autopay.io/booking_api/
+- target: $.paths['/booking/v3/permit_definitions'].get.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.
+- target: $.paths['/booking/v3/availability'].get
+  description: Add a stable operationId and the reference URL for GET /booking/v3/availability.
+  update:
+    operationId: get_v3_availability
+    x-docs: https://developer.autopay.io/booking_api/
+- target: $.paths['/booking/v3/availability'].get.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.
+- target: $.paths['/booking/v3/{id}/status'].get
+  description: Add a stable operationId and the reference URL for GET /booking/v3/{id}/status.
+  update:
+    operationId: get_v3_status
+    x-docs: https://developer.autopay.io/booking_api/
+- target: $.paths['/booking/v3/{id}/status'].get.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.
+- target: $.paths['/booking/v3/'].post
+  description: Add a stable operationId and the reference URL for POST /booking/v3/.
+  update:
+    operationId: post_v3
+    x-docs: https://developer.autopay.io/booking_api/
+- target: $.paths['/booking/v3/'].post.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.
+- target: $.paths['/booking/v3/{id}'].put
+  description: Add a stable operationId and the reference URL for PUT /booking/v3/{id}.
+  update:
+    operationId: put_v3
+    x-docs: https://developer.autopay.io/booking_api/
+- target: $.paths['/booking/v3/{id}'].put.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.
+- target: $.paths['/booking/v3/{id}'].delete
+  description: Add a stable operationId and the reference URL for DELETE /booking/v3/{id}.
+  update:
+    operationId: delete_v3
+    x-docs: https://developer.autopay.io/booking_api/
+- target: $.paths['/booking/v3/{id}'].delete.responses
+  description: Record the documented error responses, which the harvested contract does not carry.
+  update:
+    '400':
+      description: Bad request. Body is the Autopay error envelope; branch on error_id. See errors/autopay-problem-types.yml.
+    '401':
+      description: No access token present in header, or the token is invalid. error_id authentication_error.
+    '403':
+      description: Token lacks the scope or operator context for this API. error_id forbidden.
+    '500':
+      description: error_id internal_server_error.

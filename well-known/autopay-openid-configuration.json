@@ -1,0 +1,8 @@
+{
+  "issuer": "https://api-auth.autopay.io/",
+  "token_endpoint": "https://api-auth.autopay.io/oauth/token",
+  "jwks_uri": "https://api-auth.autopay.io/.well-known/jwks.json",
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ]
+}

@@ -1,0 +1,66 @@
+generated: '2026-09-06'
+method: generated
+source: >-
+  https://developer.autopay.io/ — every step, parameter, error id, limit and constraint below is
+  transcribed from Autopay's own reference pages. Autopay publishes no skills or AGENTS.md of its
+  own; a search of all 17 portal pages found none.
+provider: autopay
+description: >-
+  Packaged Agent Skills for the marquee Autopay flows. Grounded in documented HTTP operations —
+  Autopay's OpenAPI carries no operationIds, so each skill names the real method and path
+  instead of inventing an identifier.
+skills:
+- name: autopay-authenticate
+  file: autopay-authenticate.md
+  api: All Autopay APIs
+  summary: Mint and cache an OAuth 2.0 client-credentials token and attach it correctly. Start here.
+  operations:
+  - POST https://api-auth.autopay.io/oauth/token
+- name: autopay-book-a-parking-permit
+  file: autopay-book-a-parking-permit.md
+  api: Autopay Booking API
+  summary: Check availability, create a FIXED or ENTRY booking, amend it inside the documented rules, and cancel it while it is still NOT_USED.
+  operations:
+  - GET /booking/v3/permit_definitions
+  - GET /booking/v3/availability
+  - POST /booking/v3
+  - GET /booking/v3/{id}/status
+  - PUT /booking/v3/{id}
+  - DELETE /booking/v3/{id}
+  scope: permit_booking
+- name: autopay-take-payment-responsibility
+  file: autopay-take-payment-responsibility.md
+  api: Autopay Payment API
+  summary: Claim a live parking session for billing, receive the end-of-parking callback and charge the customer.
+  risk: >-
+    Contains the one irreversible call on the Autopay surface — POST /payment/v1/connect_parking.
+    Human confirmation recommended before an agent executes it.
+  operations:
+  - POST /payment/v1/connect_parking
+  - POST /payment/v1/manual_stop
+- name: autopay-export-invoices-and-statistics
+  file: autopay-export-invoices-and-statistics.md
+  api: Autopay Accounting API, Autopay Statistics API
+  summary: Pull invoices and parking statistics into an ERP or BI system without gaps or double-counting.
+  operations:
+  - GET /accounting/v1/invoices
+  - GET /statistics/v1/parking
+- name: autopay-consume-parking-webhooks
+  file: autopay-consume-parking-webhooks.md
+  api: Autopay Parking API, Payment API, Fleet API
+  summary: Host an endpoint that safely receives Autopay's entry, payment and fleet callbacks — auth, retries, duplicates, event corrections.
+  operations:
+  - PUT /parking/product/{parkingSessionId}
+skill_count: 5
+grounding:
+  operation_ids_available: false
+  note: >-
+    None of the ten OpenAPI documents in openapi/ declares an operationId, so no skill cites
+    one. Every operation referenced above appears verbatim as a method + path on
+    developer.autopay.io and in openapi/.
+cross_references:
+  conventions: conventions/autopay-conventions.yml
+  errors: errors/autopay-problem-types.yml
+  webhooks: asyncapi/autopay-webhooks.yml
+  authentication: authentication/autopay-authentication.yml
+  rate_limits: rate-limits/autopay-rate-limits.yml

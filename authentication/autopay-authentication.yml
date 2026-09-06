@@ -1,20 +1,101 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/autopay-openapi.yml
+generated: '2026-09-06'
+method: searched
+source: https://developer.autopay.io/authentication/
+docs: https://developer.autopay.io/authentication/
+discovery: https://api-auth.autopay.io/.well-known/openid-configuration
 summary:
   types:
   - oauth2
   oauth2_flows:
   - clientCredentials
+  self_serve: false
+  mfa_on_api: n/a
+description: >-
+  Every Autopay API is secured with a single mechanism: OAuth 2.0 client credentials against an
+  Auth0-hosted authorization server, presented as a Bearer token. Credentials are issued by a
+  human at Autopay and are bound to ONE operator — a partner integrating across several
+  operators holds one client_id/client_secret pair per operator and must send the right pair
+  per call.
 schemes:
 - name: OAuth2
   type: oauth2
   flows:
   - flow: clientCredentials
     tokenUrl: https://api-auth.autopay.io/oauth/token
+    audience: https://api.autopay.io
     scopes: 3
-  description: OAuth 2.0 Client Credentials flow. Tokens are minted from the Auth0 token endpoint
-    and used as Bearer tokens with `audience` set to `https://api.autopay.io`. Some endpoints
-    require specific scopes such as `permit_booking`, `customer_club`, or `zone_status`.
+    scopes_known:
+    - customer_club
+    - permit_booking
+    - zone_status
+  transport: 'Authorization: Bearer <access_token>'
+  request:
+    method: POST
+    content_type: application/json
+    body_parameters:
+    - {name: client_id, type: string, required: true}
+    - {name: client_secret, type: string, required: true}
+    - {name: audience, type: string, required: true, fixed_value: https://api.autopay.io}
+    - {name: grant_type, type: string, required: true, fixed_value: client_credentials}
+    note: >-
+      The token request body is JSON, not the application/x-www-form-urlencoded form RFC 6749
+      specifies. A generic OAuth client library configured for form encoding will fail against
+      this endpoint.
+  response:
+    fields:
+    - {name: access_token, type: string}
+    - {name: scope, type: string, description: The Autopay APIs reachable with this token.}
+    - {name: expires_in, type: integer, description: Seconds until expiry; 86400 in the documented example.}
+    - {name: token_type, type: string, fixed_value: Bearer}
+  token_lifetime: 'Short-lived: "usually 10-24 hours". Read the real value from expires_in.'
+  token_caching_required: true
+  token_caching_note: >-
+    "Generating excessive access tokens within the expiration time (i.e. requesting a new one
+    for each request) may lead to termination of API access." Autopay enforces this
+    contractually, not with a 429 — the penalty is loss of access. Any agent calling this API
+    MUST cache the token for its full expires_in.
+  errors:
+  - {status: 401, body: '{"error": "access_denied", "error_description": "Unauthorized"}', cause: Invalid client_id or client_secret.}
+  - {status: 401, body: '{"error_id":"authentication_error","message":"No access token present in header!"}', cause: Request to api.autopay.io with no Authorization header. Observed live 2026-09-06.}
+  description: >-
+    OAuth 2.0 Client Credentials against api-auth.autopay.io with audience
+    https://api.autopay.io. Some endpoints additionally require a named scope on the token —
+    permit_booking (Booking API), customer_club (Customer Club API), zone_status (Status API).
   sources:
+  - https://developer.autopay.io/authentication/
+  - https://api-auth.autopay.io/.well-known/openid-configuration
   - openapi/autopay-openapi.yml
+authorization_server:
+  issuer: https://api-auth.autopay.io/
+  token_endpoint: https://api-auth.autopay.io/oauth/token
+  jwks_uri: https://api-auth.autopay.io/.well-known/jwks.json
+  id_token_signing_alg_values_supported: [RS256]
+  discovery_document: well-known/autopay-openid-configuration.json
+  probed: '2026-09-06'
+  http_status: 200
+  vendor: Auth0 (inferred from the audience-parameter token request and the discovery document shape; not stated by Autopay)
+credential_issuance:
+  self_serve: false
+  process: >-
+    "Contact your Autopay representative to acquire the Client Credentials (Client ID and
+    Secret) for your application." There is no developer signup, no console and no key-rotation
+    endpoint. The integrator must also register a Technical Contact Person with
+    partner-support@autopay.io, naming the client_id(s) it applies to.
+  rotation: not documented
+  scoping: One credential pair per operator; a credential used against another operator's facilities returns an error.
+token_claims_used_by_the_api:
+  note: >-
+    Several documented error ids reveal that Autopay reads tenancy claims out of the token
+    rather than from the request — missing_tenant_id_token_error, missing_landlord_id_token_error,
+    missing_operator_token_error and invalid_operator_id. The tenant, landlord and operator an
+    agent acts as are fixed by the credential, not chosen per call.
+outbound_authentication:
+  note: >-
+    Autopay also authenticates ITSELF to integrator-hosted callback endpoints. Supported methods
+    are Basic, Bearer, API key (X-API-Key) and OAuth2 client credentials — see
+    asyncapi/autopay-webhooks.yml.
+gaps:
+- No OAuth 2.0 Protected Resource Metadata (RFC 9728) is served on api.autopay.io.
+- No dynamic client registration.
+- No mTLS, no request signing, no key rotation endpoint.
+- No documented scope reference page; the three scope names above are the only ones the reference mentions.

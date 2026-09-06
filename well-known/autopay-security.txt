@@ -1,0 +1,4 @@
+Contact: mailto:security@autopay.io
+Preferred-Languages: en
+Canonical: https://autopay.io/.well-known/security.txt
+Expires: 2026-10-16T00:00:00z
