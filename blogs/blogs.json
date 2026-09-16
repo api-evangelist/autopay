@@ -1,0 +1,14 @@
+{
+  "repo": "autopay",
+  "feeds": [
+    {
+      "source": "https://help.autopay.io/kb/en",
+      "feed_url": "https://help.autopay.io/kb/en",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-09-13T13:00:00Z"
+}
