@@ -257,6 +257,8 @@ apis:
   humanURL: https://developer.autopay.io
   baseURL: https://api.autopay.io
   tags:
+  - Payments
+  tags_raw:
   - Payment
   properties:
   - type: OpenAPI
@@ -313,6 +315,8 @@ apis:
   humanURL: https://developer.autopay.io
   baseURL: https://api.autopay.io
   tags:
+  - Vehicles
+  tags_raw:
   - Vehicle
   properties:
   - type: OpenAPI
