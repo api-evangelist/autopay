@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Autopay Accounting Payment API
+  title: Autopay Payment API
   version: 1.0.0
   description: Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.
   contact:
@@ -34,6 +34,8 @@ paths:
           description: Payment connected
       security:
       - OAuth2: []
+      operationId: postPaymentV1ConnectParking
+      x-operation-id-source: derived
   /payment/v1/manual_stop:
     post:
       tags:
@@ -50,6 +52,8 @@ paths:
           description: Manual stop requested
       security:
       - OAuth2: []
+      operationId: postPaymentV1ManualStop
+      x-operation-id-source: derived
 components:
   securitySchemes:
     OAuth2:

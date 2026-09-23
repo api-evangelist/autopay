@@ -72,6 +72,8 @@ paths:
                     type: object
       security:
       - OAuth2: []
+      operationId: getAccountingV1Invoices
+      x-operation-id-source: derived
 components:
   securitySchemes:
     OAuth2:

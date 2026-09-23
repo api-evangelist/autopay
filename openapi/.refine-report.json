@@ -1,16 +1,7 @@
 {
   "provider": "autopay",
   "sources": [
-    "autopay-accounting-api-openapi.yml",
-    "autopay-booking-api-openapi.yml",
-    "autopay-customer-club-api-openapi.yml",
-    "autopay-fleet-api-openapi.yml",
-    "autopay-parking-api-openapi.yml",
-    "autopay-payment-api-openapi.yml",
-    "autopay-permit-api-openapi.yml",
-    "autopay-statistics-api-openapi.yml",
-    "autopay-status-api-openapi.yml",
-    "autopay-vehicle-api-openapi.yml"
+    "_original/autopay-openapi.yml"
   ],
   "outputs": [
     "autopay-accounting-api-openapi.yml",
@@ -28,17 +19,20 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "autopay-accounting-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-booking-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-customer-club-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-fleet-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-parking-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-payment-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-permit-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-statistics-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-status-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "autopay-vehicle-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "autopay-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "autopay-accounting-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-booking-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-customer-club-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-fleet-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-parking-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-payment-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-permit-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-statistics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "autopay-vehicle-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

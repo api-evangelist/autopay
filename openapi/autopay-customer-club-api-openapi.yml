@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Autopay Accounting Customer Club API
+  title: Autopay Customer Club API
   version: 1.0.0
   description: Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.
   contact:
@@ -35,6 +35,8 @@ paths:
       security:
       - OAuth2:
         - customer_club
+      operationId: postCustomerClubV2Join
+      x-operation-id-source: derived
   /customer_club/v2/status/{registrationId}:
     get:
       tags:
@@ -52,6 +54,8 @@ paths:
       security:
       - OAuth2:
         - customer_club
+      operationId: getCustomerClubV2StatusByRegistrationId
+      x-operation-id-source: derived
   /customer_club/v2/leave/{registration_id}:
     delete:
       tags:
@@ -69,6 +73,8 @@ paths:
       security:
       - OAuth2:
         - customer_club
+      operationId: deleteCustomerClubV2LeaveByRegistrationId
+      x-operation-id-source: derived
 components:
   securitySchemes:
     OAuth2:

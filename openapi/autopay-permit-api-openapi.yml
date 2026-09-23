@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Autopay Accounting Permit API
+  title: Autopay Permit API
   version: 1.0.0
   description: Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.
   contact:
@@ -28,6 +28,8 @@ paths:
           description: Permit allocations
       security:
       - OAuth2: []
+      operationId: getPermitV3TenantPermitAllocations
+      x-operation-id-source: derived
   /permit/v3/tenant_issued_permits:
     get:
       tags:
@@ -43,6 +45,8 @@ paths:
           description: Tenant-issued permits
       security:
       - OAuth2: []
+      operationId: getPermitV3TenantIssuedPermits
+      x-operation-id-source: derived
   /permit/v3/end_user_permit:
     post:
       tags:
@@ -59,6 +63,8 @@ paths:
           description: End-user permit created
       security:
       - OAuth2: []
+      operationId: postPermitV3EndUserPermit
+      x-operation-id-source: derived
   /permit/v3/end_user_permit/{permit_id}:
     put:
       tags:
@@ -81,6 +87,8 @@ paths:
           description: Permit modified
       security:
       - OAuth2: []
+      operationId: putPermitV3EndUserPermitByPermitId
+      x-operation-id-source: derived
     delete:
       tags:
       - Permit
@@ -96,6 +104,8 @@ paths:
           description: Permit revoked
       security:
       - OAuth2: []
+      operationId: deletePermitV3EndUserPermitByPermitId
+      x-operation-id-source: derived
 components:
   securitySchemes:
     OAuth2:

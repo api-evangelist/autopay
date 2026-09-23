@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Autopay Accounting Fleet API
+  title: Autopay Fleet API
   version: 1.0.0
   description: Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform exposes several distinct REST APIs covering parking, payment, permits, fleet, booking, customer club, statistics, accounting, vehicle status, and zone status. Authentication is OAuth 2.0 Client Credentials with access tokens minted from the authorization server.
   contact:
@@ -28,6 +28,8 @@ paths:
           description: Fleet vehicles
       security:
       - OAuth2: []
+      operationId: getFleetV2Vehicles
+      x-operation-id-source: derived
     post:
       tags:
       - Fleet
@@ -43,6 +45,8 @@ paths:
           description: Vehicle added
       security:
       - OAuth2: []
+      operationId: postFleetV2Vehicles
+      x-operation-id-source: derived
     delete:
       tags:
       - Fleet
@@ -52,6 +56,8 @@ paths:
           description: Vehicle removed
       security:
       - OAuth2: []
+      operationId: deleteFleetV2Vehicles
+      x-operation-id-source: derived
   /fleet/v2/vehicles/detach:
     post:
       tags:
@@ -68,6 +74,8 @@ paths:
           description: Vehicle detached
       security:
       - OAuth2: []
+      operationId: postFleetV2VehiclesDetach
+      x-operation-id-source: derived
   /fleet/v2/services:
     get:
       tags:
@@ -78,6 +86,8 @@ paths:
           description: Services list
       security:
       - OAuth2: []
+      operationId: getFleetV2Services
+      x-operation-id-source: derived
   /fleet/v2/services/by_updated_at:
     get:
       tags:
@@ -88,6 +98,8 @@ paths:
           description: Services list filtered by update timestamp
       security:
       - OAuth2: []
+      operationId: getFleetV2ServicesByUpdatedAt
+      x-operation-id-source: derived
   /fleet/v2/vehicles/services:
     get:
       tags:
@@ -98,6 +110,8 @@ paths:
           description: Services for vehicle
       security:
       - OAuth2: []
+      operationId: getFleetV2VehiclesServices
+      x-operation-id-source: derived
   /fleet/v2/vehicles/disable_payments:
     post:
       tags:
@@ -114,6 +128,8 @@ paths:
           description: Payments locked
       security:
       - OAuth2: []
+      operationId: postFleetV2VehiclesDisablePayments
+      x-operation-id-source: derived
 components:
   securitySchemes:
     OAuth2:
