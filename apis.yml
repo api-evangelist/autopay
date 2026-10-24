@@ -229,6 +229,8 @@ apis:
   humanURL: https://developer.autopay.io
   baseURL: https://api.autopay.io
   tags:
+  - Fleet Management
+  tags_raw:
   - Fleet
   properties:
   - type: OpenAPI
