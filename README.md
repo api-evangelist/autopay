@@ -1,4 +1,4 @@
-# Autopay (autopay)
+# Autopay
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,208 +66,185 @@
 
 Autopay is a Norwegian parking payment and management platform that provides APIs for parking operators, landlords, fleet managers, and third-party integrators. The platform enables automated parking permit management, payment processing, fleet tracking, and parking statistics with 13+ distinct API endpoints. All integrators must accept the Autopay API Usage Agreement before accessing the APIs.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/autopay/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/autopay/refs/heads/main/apis.yml)
+**Areas:** Parking · Parking Payments · Fleet Management · Permits · Parking Operators · Norway
 
-## Scope
+## Autopay on APIs.io
 
-- **Type:** Index
-- **Access:** 3rd-Party
+Everything profiled for Autopay is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/autopay/](https://apis.io/providers/autopay/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (19)
 
-- Parking
-- Parking Payments
-- Fleet Management
-- Permits
-- Parking Operators
-- Norway
+- [Autopay Accounting API](https://apis.io/apis/autopay/accounting-api/) — The Autopay Accounting API provides Autopay invoicing data to external accounting and ERP systems, enabling automated reconciliation of parking revenue and…
+- [Autopay Booking API](https://apis.io/apis/autopay/booking-api/) — The Autopay Booking API enables assignment of anonymous parking permits to vehicles, supporting short-term and pre-booked parking allocations in managed…
+- [Autopay Parking API](https://apis.io/apis/autopay/parking-api/) — The Autopay Parking API handles zone entry notifications and parking session modifications, enabling integration with parking gate systems, sensors, and…
+- [Autopay Payment API](https://apis.io/apis/autopay/payment-api/) — The Autopay Payment API enables third-party systems to take payment responsibility for parking sessions, supporting employer-paid parking, fleet-billed…
+- [Autopay Permit Tenant API](https://apis.io/apis/autopay/permit-tenant-api/) — The Autopay Permit Tenant API enables tenants in managed properties to manage their parking permits, including adding vehicles, modifying permit…
+- [Autopay Fleet API](https://apis.io/apis/autopay/fleet-api/) — The Autopay Fleet API provides fleet information for company vehicle fleets, enabling fleet managers to track vehicle parking activity, costs, and permit…
+- [Autopay Statistics API](https://apis.io/apis/autopay/statistics-api/) — The Autopay Statistics API exports parking statistics for operators and landlords, providing data on occupancy rates, revenue, session volumes, and permit…
+- [Autopay Vehicle API](https://apis.io/apis/autopay/vehicle-api/) — The Autopay Vehicle API fetches data about a vehicle in a specific parking zone, providing real-time information on vehicle presence, active session status,…
+- [Autopay Tap and Park API](https://apis.io/apis/autopay/tap-park-api/) — The Autopay Tap and Park API enables third-party applications to validate parking sessions in Autopay-managed zones, supporting contactless parking…
+- [Autopay Accounting API](https://apis.io/apis/autopay/autopay-accounting-api/) — Invoice export for accounting and ERP reconciliation
+- [Autopay Booking API](https://apis.io/apis/autopay/autopay-booking-api/) — Permit booking creation, modification, status, and availability
+- [Autopay Customer Club API](https://apis.io/apis/autopay/autopay-customer-club-api/) — Customer club membership management
+- [Autopay Fleet API](https://apis.io/apis/autopay/autopay-fleet-api/) — Fleet vehicle management and parking/toll service retrieval
+- [Autopay Parking API](https://apis.io/apis/autopay/autopay-parking-api/) — Parking session product changes
+- [Autopay Payment API](https://apis.io/apis/autopay/autopay-payment-api/) — External payment registration and parking connection
+- [Autopay Permit API](https://apis.io/apis/autopay/autopay-permit-api/) — Tenant permit allocations and end-user permit lifecycle
+- [Autopay Statistics API](https://apis.io/apis/autopay/autopay-statistics-api/) — Parking statistics export
+- [Autopay Status API](https://apis.io/apis/autopay/autopay-status-api/) — Zone availability and detailed parking session status
+- [Autopay Vehicle API](https://apis.io/apis/autopay/autopay-vehicle-api/) — Vehicle permit and session lookups
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-02-08
-- **Modified:** 2026-04-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Autopay Accounting API
+Event-driven and webhook contracts.
 
-The Autopay Accounting API provides Autopay invoicing data to external accounting and ERP systems, enabling automated reconciliation of parking revenue and invoice export.
+- [Autopay Webhooks](https://apis.io/asyncapis/autopay/autopay-webhooks/)
 
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Accounting
-- Invoicing
-- Finance
+- [autopay-mcp.yml](https://apis.io/servers/autopay/autopay-mcp-yml/)
 
-#### Properties
+#### Agentic access (1)
 
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Autopay Agentic Access](https://apis.io/agentic-access/autopay/autopay-agentic-access/)
+
+#### Collections (11)
+
+Postman and Open Collection request collections.
+
+- [Autopay API](https://apis.io/collections/autopay/open-autopay/)
+- [Autopay Accounting API](https://apis.io/collections/autopay/open-autopay-accounting-api/)
+- [Autopay Accounting Booking API](https://apis.io/collections/autopay/open-autopay-booking-api/)
+- [Autopay Accounting Customer Club API](https://apis.io/collections/autopay/open-autopay-customer-club-api/)
+- [Autopay Accounting Fleet API](https://apis.io/collections/autopay/open-autopay-fleet-api/)
+- [Autopay Accounting Parking API](https://apis.io/collections/autopay/open-autopay-parking-api/)
+- [Autopay Accounting Payment API](https://apis.io/collections/autopay/open-autopay-payment-api/)
+- [Autopay Accounting Permit API](https://apis.io/collections/autopay/open-autopay-permit-api/)
+- [Autopay Accounting Statistics API](https://apis.io/collections/autopay/open-autopay-statistics-api/)
+- [Autopay Accounting Status API](https://apis.io/collections/autopay/open-autopay-status-api/)
+- [Autopay Accounting Vehicle API](https://apis.io/collections/autopay/open-autopay-vehicle-api/)
+
+#### Overlays (10)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Autopay Accounting Overlay](https://apis.io/overlays/autopay/autopay-accounting-overlay/)
+- [Autopay Booking Overlay](https://apis.io/overlays/autopay/autopay-booking-overlay/)
+- [Autopay Customer Club Overlay](https://apis.io/overlays/autopay/autopay-customer-club-overlay/)
+- [Autopay Fleet Overlay](https://apis.io/overlays/autopay/autopay-fleet-overlay/)
+- [Autopay Parking Overlay](https://apis.io/overlays/autopay/autopay-parking-overlay/)
+- [Autopay Payment Overlay](https://apis.io/overlays/autopay/autopay-payment-overlay/)
+- [Autopay Permit Overlay](https://apis.io/overlays/autopay/autopay-permit-overlay/)
+- [Autopay Statistics Overlay](https://apis.io/overlays/autopay/autopay-statistics-overlay/)
+- [Autopay Status Overlay](https://apis.io/overlays/autopay/autopay-status-overlay/)
+- [Autopay Vehicle Overlay](https://apis.io/overlays/autopay/autopay-vehicle-overlay/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Autopay Authentication](https://apis.io/security/autopay/autopay-authentication/)
+- [Autopay Domain Security](https://apis.io/security/autopay/autopay-domain-security/)
+- [Autopay Trust Center](https://apis.io/security/autopay/autopay-trust-center/)
+- [Autopay Vulnerability Disclosure](https://apis.io/security/autopay/autopay-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Autopay Scopes](https://apis.io/scopes/autopay/autopay-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Autopay Plans Pricing](https://apis.io/plans/autopay/autopay-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Autopay Rate Limits](https://apis.io/rate-limits/autopay/autopay-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Autopay Finops](https://apis.io/finops/autopay/autopay-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://autopay.io)
 - [Documentation](https://developer.autopay.io)
-- [Authentication](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Getting started](https://developer.autopay.io/authentication/)
+- [API reference](https://developer.autopay.io)
+- [Support](https://help.autopay.io/kb/en)
+- [Blog](https://solutions.autopay.io/latest-news)
+- [Trust centre](https://solutions.autopay.io/about-us/iso-certifications)
+- [Terms of service](https://developer.autopay.io/usage_agreement/)
+- [Privacy policy](https://solutions.autopay.io/privacy-policy)
 
-### Autopay Booking API
+## API Evangelist rating
 
-The Autopay Booking API enables assignment of anonymous parking permits to vehicles, supporting short-term and pre-booked parking allocations in managed parking facilities.
+**Kin Score 50.6** — developing · rubric 0.25.0 · scored 2026-10-23
 
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 53.5 |
+| Contract governance | 18.2 |
+| Operational transparency | 47.4 |
+| Developer ergonomics | 54.2 |
+| Access clarity | 36.8 |
 
-#### Tags
+**Agent readiness 37.8** — agent-ready
 
-- Booking
-- Parking Permits
-- Reservations
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
 
-#### Properties
+**Regulatory alignment 46.4** — Payments
 
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/autopay/](https://apis.io/providers/autopay/).
 
-### Autopay Parking API
+## How this profile is made
 
-The Autopay Parking API handles zone entry notifications and parking session modifications, enabling integration with parking gate systems, sensors, and barrier control equipment to track vehicle arrivals and departures in parking zones.
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Autopay: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-#### Tags
+## Open an issue
 
-- Parking Sessions
-- Zone Entry
-- Gate Control
-
-#### Properties
-
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Autopay Payment API
-
-The Autopay Payment API enables third-party systems to take payment responsibility for parking sessions, supporting employer-paid parking, fleet-billed parking, and visitor parking validation workflows.
-
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
-
-#### Tags
-
-- Payments
-- Parking Payment
-- Third-Party Billing
-
-#### Properties
-
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Autopay Permit Tenant API
-
-The Autopay Permit Tenant API enables tenants in managed properties to manage their parking permits, including adding vehicles, modifying permit allocations, and tracking permit usage within their assigned quota.
-
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
-
-#### Tags
-
-- Permits
-- Tenant Management
-- Vehicle Permits
-
-#### Properties
-
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Autopay Fleet API
-
-The Autopay Fleet API provides fleet information for company vehicle fleets, enabling fleet managers to track vehicle parking activity, costs, and permit usage across all fleet vehicles.
-
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
-
-#### Tags
-
-- Fleet Management
-- Vehicle Tracking
-- Corporate Parking
-
-#### Properties
-
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Autopay Statistics API
-
-The Autopay Statistics API exports parking statistics for operators and landlords, providing data on occupancy rates, revenue, session volumes, and permit utilization for parking facility management and reporting.
-
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
-
-#### Tags
-
-- Analytics
-- Statistics
-- Reporting
-- Occupancy
-
-#### Properties
-
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Autopay Vehicle API
-
-The Autopay Vehicle API fetches data about a vehicle in a specific parking zone, providing real-time information on vehicle presence, active session status, and permit validity for enforcement and access control purposes.
-
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
-
-#### Tags
-
-- Vehicle Data
-- Zone Status
-- Enforcement
-
-#### Properties
-
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Autopay Tap and Park API
-
-The Autopay Tap and Park API enables third-party applications to validate parking sessions in Autopay-managed zones, supporting contactless parking validation via NFC, mobile apps, or access control systems.
-
-- **Human URL:** [https://developer.autopay.io](https://developer.autopay.io)
-
-#### Tags
-
-- Parking Validation
-- NFC
-- Mobile Payments
-- Contactless
-
-#### Properties
-
-- [Documentation](https://developer.autopay.io)
-- [Postman Collection](collections/autopay.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/autopay.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [LinkedIn](https://www.linkedin.com/company/autopay)
-- [Portal](https://developer.autopay.io)
-- [Website](https://autopay.no)
-- [Documentation](https://developer.autopay.io)
-- [Authentication](https://developer.autopay.io)
-- [Terms of Service](https://developer.autopay.io)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [L L Ms Txt](https://autopay.io/llms.txt)
-
-## Maintainers
-
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/autopay/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
